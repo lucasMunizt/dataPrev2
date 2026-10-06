@@ -1,0 +1,2993 @@
+<title>Caderno Azul Dataprev</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,700;12..96,800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=IBM+Plex+Mono:wght@400;600&display=swap"
+/>
+<style>
+  /* Layout: caderno de prova à esquerda, cartão-resposta (bolhas A–E) à direita; empilha no celular. */
+  :root {
+    --paper: #eef2f8;
+    --sheet: #ffffff;
+    --ink: #13203b;
+    --muted: #56627c;
+    --line: #d5dce8;
+    --pen: #1e46c8;
+    --pen-ink: #ffffff;
+    --pen-soft: #e2e9fb;
+    --ok: #14713a;
+    --ok-soft: #e1f3e7;
+    --bad: #b42318;
+    --bad-soft: #fbe6e3;
+    --amber: #9a5b00;
+    --amber-soft: #fbf0dc;
+    --display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+    --read: "Source Serif 4", Georgia, "Times New Roman", serif;
+    --mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+    --r: 10px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #0c1222;
+      --sheet: #141b2e;
+      --ink: #e5eaf5;
+      --muted: #9aa5bf;
+      --line: #28324b;
+      --pen: #86a6ff;
+      --pen-ink: #0c1222;
+      --pen-soft: #1c2850;
+      --ok: #5bd98a;
+      --ok-soft: #123222;
+      --bad: #ff8a80;
+      --bad-soft: #3a1818;
+      --amber: #f2b65a;
+      --amber-soft: #34260f;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #0c1222;
+    --sheet: #141b2e;
+    --ink: #e5eaf5;
+    --muted: #9aa5bf;
+    --line: #28324b;
+    --pen: #86a6ff;
+    --pen-ink: #0c1222;
+    --pen-soft: #1c2850;
+    --ok: #5bd98a;
+    --ok-soft: #123222;
+    --bad: #ff8a80;
+    --bad-soft: #3a1818;
+    --amber: #f2b65a;
+    --amber-soft: #34260f;
+    color-scheme: dark;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--display);
+    font-size: 15px;
+    line-height: 1.5;
+  }
+  .wrap {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding-inline: 16px;
+    padding-block: 20px 56px;
+  }
+  button {
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+  }
+  button:focus-visible,
+  [tabindex]:focus-visible {
+    outline: 3px solid var(--pen);
+    outline-offset: 2px;
+  }
+  .mono {
+    font-family: var(--mono);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Header */
+  .top {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px;
+    padding-bottom: 18px;
+    border-bottom: 2px solid var(--ink);
+  }
+  .brand .eyebrow {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .brand h1 {
+    margin: 2px 0 0;
+    font-size: clamp(28px, 5vw, 44px);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+    text-wrap: balance;
+  }
+  .brand h1 span {
+    color: var(--pen);
+  }
+  .stats {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .stat {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .stat b {
+    font-family: var(--mono);
+    font-size: 22px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+  .stat small {
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* Home */
+  .modes {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 12px;
+    margin: 24px 0 8px;
+  }
+  .mode {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    text-align: left;
+    padding: 16px 18px;
+    border: 1.5px solid var(--line);
+    border-radius: var(--r);
+    background: var(--sheet);
+  }
+  .mode:hover {
+    border-color: var(--pen);
+  }
+  .mode.primary {
+    background: var(--pen);
+    border-color: var(--pen);
+    color: var(--pen-ink);
+  }
+  .mode.primary small {
+    color: inherit;
+    opacity: 0.85;
+  }
+  .mode strong {
+    font-size: 18px;
+    font-weight: 700;
+  }
+  .mode small {
+    color: var(--muted);
+    font-size: 13.5px;
+  }
+  .mode[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  .module {
+    margin-top: 28px;
+  }
+  .module-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+  .module-head h2 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 700;
+  }
+  .module-head span {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    color: var(--muted);
+  }
+  .disc-list {
+    border-top: 1px solid var(--line);
+  }
+  .disc {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 6px 16px;
+    align-items: center;
+    padding: 14px 4px;
+    border-bottom: 1px solid var(--line);
+    width: 100%;
+    background: none;
+    border-left: 0;
+    border-right: 0;
+    border-top: 0;
+    text-align: left;
+  }
+  .disc:hover {
+    background: var(--sheet);
+  }
+  .disc .name {
+    font-weight: 600;
+    font-size: 16px;
+  }
+  .disc .meta {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .disc .go {
+    grid-row: 1/3;
+    grid-column: 2;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--pen);
+    white-space: nowrap;
+  }
+  .bar {
+    grid-column: 1;
+    display: flex;
+    height: 6px;
+    border-radius: 3px;
+    background: var(--line);
+    overflow: hidden;
+    max-width: 420px;
+  }
+  .bar i {
+    display: block;
+    height: 100%;
+  }
+  .bar .b-ok {
+    background: var(--ok);
+  }
+  .bar .b-bad {
+    background: var(--bad);
+  }
+  .foot {
+    margin-top: 32px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+    color: var(--muted);
+    font-size: 13px;
+  }
+  .link {
+    background: none;
+    border: 0;
+    padding: 0;
+    color: var(--bad);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .confirm {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    padding: 10px 12px;
+    border-radius: 8px;
+    background: var(--bad-soft);
+    color: var(--ink);
+  }
+
+  /* Quiz */
+  .qbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 16px;
+    margin: 18px 0 14px;
+  }
+  .back {
+    background: none;
+    border: 1.5px solid var(--line);
+    border-radius: 999px;
+    padding: 6px 14px;
+    font-size: 13.5px;
+  }
+  .back:hover {
+    border-color: var(--ink);
+  }
+  .chip {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: var(--pen-soft);
+    color: var(--pen);
+  }
+  .qbar .spacer {
+    flex: 1;
+  }
+  .timer {
+    font-family: var(--mono);
+    font-size: 15px;
+    font-weight: 600;
+  }
+  .timer.low {
+    color: var(--bad);
+  }
+  .layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 300px;
+    gap: 24px;
+    align-items: start;
+  }
+  @media (max-width: 900px) {
+    .layout {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+  .sheet {
+    background: var(--sheet);
+    border: 1px solid var(--line);
+    border-radius: var(--r);
+    padding: clamp(18px, 3vw, 32px);
+  }
+  .qhead {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  .qnum {
+    font-family: var(--mono);
+    font-weight: 600;
+    font-size: 28px;
+    line-height: 1;
+    color: var(--pen);
+  }
+  .qtag {
+    font-size: 12.5px;
+    color: var(--muted);
+  }
+  details.passage {
+    margin: 0 0 16px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--paper);
+  }
+  details.passage summary {
+    cursor: pointer;
+    padding: 10px 14px;
+    font-weight: 600;
+    font-size: 14px;
+  }
+  details.passage .ptext {
+    padding: 0 16px 14px;
+    font-family: var(--read);
+    font-size: 15.5px;
+    line-height: 1.65;
+    max-width: 68ch;
+    white-space: pre-line;
+  }
+  details.passage .src {
+    display: block;
+    margin-top: 8px;
+    font-family: var(--display);
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .stem {
+    font-family: var(--read);
+    font-size: 17.5px;
+    line-height: 1.6;
+    max-width: 68ch;
+    margin: 0 0 14px;
+  }
+  pre.code {
+    margin: 0 0 16px;
+    padding: 14px 16px;
+    border-radius: 8px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    font-family: var(--mono);
+    font-size: 13.5px;
+    line-height: 1.55;
+    overflow-x: auto;
+  }
+  .opts {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .opt {
+    display: grid;
+    grid-template-columns: 34px minmax(0, 1fr);
+    gap: 12px;
+    align-items: start;
+    width: 100%;
+    text-align: left;
+    padding: 10px 12px;
+    border: 1.5px solid var(--line);
+    border-radius: 8px;
+    background: var(--sheet);
+    font-family: var(--read);
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  .opt:not([disabled]):hover {
+    border-color: var(--pen);
+    background: var(--pen-soft);
+  }
+  .opt[disabled] {
+    cursor: default;
+  }
+  .bub {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 2px solid var(--ink);
+    display: grid;
+    place-items: center;
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .opt.sel {
+    border-color: var(--pen);
+  }
+  .opt.sel .bub {
+    background: var(--pen);
+    border-color: var(--pen);
+    color: var(--pen-ink);
+  }
+  .opt.right {
+    border-color: var(--ok);
+    background: var(--ok-soft);
+  }
+  .opt.right .bub {
+    background: var(--ok);
+    border-color: var(--ok);
+    color: var(--sheet);
+  }
+  .opt.wrong {
+    border-color: var(--bad);
+    background: var(--bad-soft);
+  }
+  .opt.wrong .bub {
+    background: var(--bad);
+    border-color: var(--bad);
+    color: var(--sheet);
+  }
+  .feedback {
+    margin-top: 16px;
+    padding: 14px 16px;
+    border-radius: 8px;
+    border-left: 4px solid var(--ok);
+    background: var(--ok-soft);
+  }
+  .feedback.no {
+    border-left-color: var(--bad);
+    background: var(--bad-soft);
+  }
+  .feedback h3 {
+    margin: 0 0 4px;
+    font-size: 16px;
+  }
+  .feedback p {
+    margin: 0;
+    font-family: var(--read);
+    font-size: 15.5px;
+    line-height: 1.6;
+    max-width: 68ch;
+  }
+  .nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: space-between;
+    margin-top: 18px;
+  }
+  .btn {
+    border: 1.5px solid var(--ink);
+    border-radius: 8px;
+    padding: 9px 16px;
+    background: var(--sheet);
+    font-weight: 600;
+    font-size: 14px;
+  }
+  .btn.solid {
+    background: var(--pen);
+    border-color: var(--pen);
+    color: var(--pen-ink);
+  }
+  .btn[disabled] {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  /* Cartão-resposta */
+  .card {
+    position: sticky;
+    top: calc(env(safe-area-inset-top, 0px) + 12px);
+    background: var(--sheet);
+    border: 1px solid var(--line);
+    border-radius: var(--r);
+    padding: 16px;
+  }
+  @media (max-width: 900px) {
+    .card {
+      position: static;
+    }
+  }
+  .card h4 {
+    margin: 0 0 2px;
+    font-size: 14px;
+    font-weight: 700;
+  }
+  .card .hint {
+    margin: 0 0 12px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(38px, 1fr));
+    gap: 5px;
+    max-height: 52vh;
+    overflow: auto;
+    padding: 2px;
+  }
+  @media (max-width: 900px) {
+    .grid {
+      max-height: none;
+    }
+  }
+  .cell {
+    font-family: var(--mono);
+    font-size: 12px;
+    padding: 6px 0;
+    border-radius: 6px;
+    border: 1.5px solid var(--line);
+    background: var(--sheet);
+    font-variant-numeric: tabular-nums;
+  }
+  .cell.ans {
+    background: var(--pen-soft);
+    border-color: var(--pen);
+  }
+  .cell.ok {
+    background: var(--ok-soft);
+    border-color: var(--ok);
+    color: var(--ok);
+  }
+  .cell.no {
+    background: var(--bad-soft);
+    border-color: var(--bad);
+    color: var(--bad);
+  }
+  .cell.cur {
+    outline: 2px solid var(--ink);
+    outline-offset: 1px;
+  }
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 12px;
+    font-size: 11.5px;
+    color: var(--muted);
+  }
+  .legend i {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 3px;
+    margin-right: 4px;
+    vertical-align: -1px;
+    border: 1.5px solid;
+  }
+  .card .submit {
+    width: 100%;
+    margin-top: 14px;
+  }
+
+  /* Resultado */
+  .result {
+    margin-top: 20px;
+  }
+  .score {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 12px 28px;
+    padding: 22px;
+    border-radius: var(--r);
+    background: var(--sheet);
+    border: 1px solid var(--line);
+  }
+  .score .big {
+    font-family: var(--mono);
+    font-size: clamp(40px, 8vw, 64px);
+    font-weight: 600;
+    line-height: 1;
+  }
+  .score .big small {
+    font-size: 0.4em;
+    color: var(--muted);
+  }
+  .verdict {
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 14px;
+  }
+  .verdict.pass {
+    background: var(--ok-soft);
+    color: var(--ok);
+  }
+  .verdict.fail {
+    background: var(--bad-soft);
+    color: var(--bad);
+  }
+  .score p {
+    flex-basis: 100%;
+    margin: 0;
+    color: var(--muted);
+    font-size: 13.5px;
+  }
+  .tbl-wrap {
+    overflow-x: auto;
+    margin-top: 16px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    min-width: 520px;
+  }
+  th,
+  td {
+    padding: 10px 8px;
+    border-bottom: 1px solid var(--line);
+    text-align: left;
+  }
+  th {
+    font-size: 11.5px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 600;
+  }
+  td.n {
+    font-family: var(--mono);
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+  th.n {
+    text-align: right;
+  }
+  td .zero {
+    color: var(--bad);
+    font-weight: 700;
+  }
+  .toast {
+    position: fixed;
+    left: 50%;
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 18px);
+    transform: translateX(-50%);
+    background: var(--ink);
+    color: var(--paper);
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-size: 13.5px;
+    font-weight: 600;
+    transition: opacity 0.2s;
+  }
+  .empty {
+    padding: 24px;
+    border: 1.5px dashed var(--line);
+    border-radius: var(--r);
+    color: var(--muted);
+    text-align: center;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      transition: none !important;
+      animation: none !important;
+    }
+  }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="brand">
+      <div class="eyebrow">
+        Dataprev · ATI · Perfil 3 · Desenvolvimento de Software
+      </div>
+      <h1>Caderno <span>Azul</span></h1>
+    </div>
+    <div class="stats" aria-live="polite">
+      <div class="stat">
+        <b id="st-done">0/140</b><small>respondidas</small>
+      </div>
+      <div class="stat"><b id="st-acc">—</b><small>aproveitamento</small></div>
+      <div class="stat"><b id="st-streak">0</b><small>sequência</small></div>
+      <div class="stat"><b id="st-best">0</b><small>recorde</small></div>
+    </div>
+  </header>
+  <main id="app"></main>
+</div>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+  const TEXTS = {
+    lpA: {
+      title: "Texto I",
+      body: "A digitalização dos serviços públicos ampliou o acesso de milhões de cidadãos a benefícios previdenciários que antes exigiam horas de fila. Pelo celular, é possível pedir aposentadoria, consultar extratos e acompanhar processos. Contudo, para quem não tem internet de qualidade ou não domina aplicativos, a porta digital pode se tornar um muro. Por isso, canais presenciais e telefônicos continuam indispensáveis: a tecnologia só cumpre sua função pública quando não deixa ninguém para trás.",
+      src: "Texto elaborado para fins de estudo.",
+    },
+    enA: {
+      title: "TEXT 1 — Generative AI in Government Services",
+      body: "Governments around the world are experimenting with generative artificial intelligence to answer citizens' questions, summarize documents and help civil servants draft responses. Social security agencies receive millions of requests every month, and even a small gain in efficiency could save years of waiting time.\n\nHowever, experts warn that these tools must be deployed carefully. Large language models can produce fluent answers that are factually wrong, a phenomenon known as “hallucination”. If a chatbot tells a retiree that she is not entitled to a benefit when she actually is, the damage is real. For this reason, many agencies are adopting a “human-in-the-loop” approach, in which an employee reviews the AI's output before any decision is made.\n\nTransparency is another concern. Citizens should know when they are talking to a machine, and they should be able to request a human review. Despite these challenges, most analysts agree that AI will become a permanent part of public administration. The question is no longer whether governments will use it, but how they will use it responsibly.",
+      src: "Text written for study purposes.",
+    },
+    enB: {
+      title: "TEXT 2 — Why DevOps Is About People",
+      body: "When companies adopt DevOps, they often start by buying tools: a new pipeline server, container platforms, monitoring dashboards. Tools are important, but they are not enough. DevOps is primarily a cultural change that breaks down the wall between those who write code and those who run it in production.\n\nIn a traditional organization, developers are rewarded for delivering new features, while operations teams are rewarded for keeping systems stable. These goals seem to conflict, so each group tends to blame the other when something goes wrong. DevOps replaces this blame game with shared responsibility.\n\nTeams that practice it deploy small changes frequently, which makes each release less risky and easier to roll back. They also measure their performance using metrics such as deployment frequency, lead time for changes, change failure rate and time to restore service. Had the industry focused only on automation, these improvements would never have happened. Automation amplifies good practices; it cannot create them.",
+      src: "Text written for study purposes.",
+    },
+    enC: {
+      title: "TEXT 3 — Hospital Data Breach",
+      body: "A regional hospital chain announced on Monday that hackers had accessed the personal records of approximately 340,000 patients. According to the company, the attackers exploited an outdated library in a web portal used to schedule appointments. The vulnerability had been publicly disclosed eight months earlier, and a patch was available, but it was never applied.\n\nStolen data includes names, dates of birth and, in some cases, medical exam results. The company stated that payment card numbers were not affected because they are stored by a separate provider. Regulators have opened an investigation and may impose fines.\n\nSecurity specialists say the incident illustrates a common problem: organizations invest in firewalls and antivirus software but neglect the less visible task of keeping third-party components up to date. “Most breaches don't involve brilliant zero-day attacks,” said one analyst. “They involve doors that were left unlocked.”",
+      src: "Text written for study purposes.",
+    },
+    enD: {
+      title: "TEXT 4 — Better Code Reviews",
+      body: "Code review is one of the most effective practices for improving software quality, yet many developers dread it. Part of the problem is the way feedback is given. Comments such as “this is wrong” or “why would you do this?” tend to make authors defensive. Experienced reviewers prefer to ask questions and explain the reasoning behind their suggestions: “Could we extract this logic into a separate method so that it's easier to test?”\n\nAnother tip is to keep pull requests small. A reviewer can carefully analyze 200 lines of code, but when faced with 2,000 lines, most people simply skim and approve.\n\nFinally, teams should automate whatever can be automated. Formatting, style rules and simple bugs can be detected by linters and static analysis tools, leaving humans free to focus on design, readability and business logic. Reviews should be a conversation between colleagues, not an exam.",
+      src: "Text written for study purposes.",
+    },
+  };
+  const QUESTIONS = [
+    {
+      s: "lp",
+      q: "Assinale a opção correta em relação à concordância nominal.",
+      o: [
+        "Ela ficou meia preocupada com o resultado.",
+        "É proibido a saída de equipamentos sem autorização.",
+        "Bastante pessoas compareceram à reunião.",
+        "Os documentos seguem anexo ao processo.",
+        "Seguem anexas as planilhas solicitadas.",
+      ],
+      a: 4,
+      e: "“Anexo” é adjetivo e concorda com o substantivo: planilhas anexas. “Meio” como advérbio é invariável (meio preocupada); com artigo, “proibida a saída”; “bastantes pessoas” (pronome variável).",
+    },
+    {
+      s: "lp",
+      q: "Assinale a opção que respeita a concordância verbal segundo a norma-padrão.",
+      o: [
+        "Fazem dois anos que o sistema foi implantado.",
+        "Existem muitas dúvidas sobre o novo sistema.",
+        "Devem haver soluções mais simples.",
+        "Houveram muitos problemas na migração.",
+        "Aluga-se salas comerciais no centro.",
+      ],
+      a: 1,
+      e: "“Existir” é pessoal e concorda com o sujeito (muitas dúvidas). “Fazer” (tempo) e “haver” (existir) são impessoais e ficam no singular, inclusive o auxiliar (deve haver). “Alugam-se salas”: voz passiva sintética concorda com o sujeito.",
+    },
+    {
+      s: "lp",
+      q: "Assinale a opção em que o acento grave indicativo de crase está empregado corretamente.",
+      o: [
+        "O servidor começou à apresentar falhas.",
+        "Refiro-me à esta proposta.",
+        "O analista entregou o relatório à diretora.",
+        "Vou à Brasília na próxima semana.",
+        "Fizemos o trajeto à pé.",
+      ],
+      a: 2,
+      e: "“Entregar algo a alguém” + artigo “a” de “a diretora” = à. Não há crase antes de verbo, de pronome demonstrativo “esta”, de palavra masculina (pé) nem de cidade sem determinante (vou a Brasília).",
+    },
+    {
+      s: "lp",
+      q: "Assinale a opção em que a colocação do pronome átono está de acordo com a norma-padrão.",
+      o: [
+        "Jamais encontrarei-o naquele setor.",
+        "Aqui trabalha-se com prazos curtos.",
+        "Não me disseram a verdade sobre o prazo.",
+        "Me empresta o manual, por favor.",
+        "Quem avisou-te da mudança?",
+      ],
+      a: 2,
+      e: "Palavras negativas (não, jamais), advérbios (aqui) e pronomes interrogativos (quem) atraem o pronome: próclise. Na norma-padrão, não se inicia oração com pronome oblíquo átono (Me empresta).",
+    },
+    {
+      s: "lp",
+      q: "Assinale a opção que apresenta corretamente a regência verbal.",
+      o: [
+        "Prefiro mais café do que chá.",
+        "O candidato aspira o cargo de analista.",
+        "Assistimos ao jogo no auditório.",
+        "Esqueci do compromisso de amanhã.",
+        "Obedeça o regulamento interno.",
+      ],
+      a: 2,
+      e: "“Assistir”, no sentido de ver, exige a preposição “a”: assistir ao jogo. Prefere-se uma coisa A outra; aspirar (desejar) A algo; esquecer algo (ou esquecer-se de algo); obedecer A algo.",
+    },
+    {
+      s: "lp",
+      q: "Em “Embora o sistema estivesse instável, a equipe concluiu a migração no prazo”, a oração destacada pelo conector “Embora” expressa",
+      o: ["concessão.", "condição.", "finalidade.", "causa.", "conformidade."],
+      a: 0,
+      e: "“Embora” introduz uma oração concessiva: apresenta um fato contrário que não impede a realização do que se afirma na oração principal.",
+    },
+    {
+      s: "lp",
+      q: "Em “O servidor caiu durante a madrugada, logo os usuários não conseguiram acessar o portal”, a conjunção “logo” estabelece relação de",
+      o: ["adição.", "oposição.", "alternância.", "explicação.", "conclusão."],
+      a: 4,
+      e: "“Logo” (posposto ao verbo ou iniciando a oração) é conjunção coordenativa conclusiva, equivalente a “portanto”: o acesso falhou como conclusão da queda do servidor.",
+    },
+    {
+      s: "lp",
+      q: "Assinale a frase em que o emprego da vírgula está INCORRETO.",
+      o: [
+        "Brasília, 5 de outubro de 2026.",
+        "O gerente, que chegou cedo, revisou o código.",
+        "Se o teste falhar, o deploy será cancelado.",
+        "Os analistas da equipe de dados, desenvolveram o novo painel.",
+        "Compramos monitores, teclados e cadeiras.",
+      ],
+      a: 3,
+      e: "Não se separa o sujeito (“Os analistas da equipe de dados”) do verbo (“desenvolveram”) por vírgula. Nas demais, a vírgula separa local e data, oração adverbial anteposta, oração adjetiva explicativa e itens de enumeração.",
+    },
+    {
+      s: "lp",
+      q: "Em “A equipe espera que o novo sistema reduza as filas”, a oração “que o novo sistema reduza as filas” classifica-se como subordinada",
+      o: [
+        "adverbial final.",
+        "adjetiva restritiva.",
+        "substantiva subjetiva.",
+        "substantiva objetiva direta.",
+        "adverbial causal.",
+      ],
+      a: 3,
+      e: "A oração completa o verbo transitivo direto “esperar” (espera ISTO), funcionando como objeto direto: substantiva objetiva direta.",
+    },
+    {
+      s: "lp",
+      q: "Considere: “Os servidores, que estavam sobrecarregados, foram reiniciados.” Sobre o sentido da frase, é correto afirmar que",
+      o: [
+        "apenas parte dos servidores estava sobrecarregada.",
+        "a oração entre vírgulas restringe o grupo de servidores reiniciados.",
+        "a retirada das vírgulas não alteraria o sentido.",
+        "todos os servidores mencionados estavam sobrecarregados.",
+        "a oração entre vírgulas exprime finalidade.",
+      ],
+      a: 3,
+      e: "Entre vírgulas, a oração adjetiva é explicativa: generaliza a característica para todo o grupo. Sem as vírgulas, seria restritiva (só os sobrecarregados foram reiniciados), mudando o sentido.",
+    },
+    {
+      s: "lp",
+      q: "Assinale a opção em que todas as palavras estão grafadas corretamente.",
+      o: [
+        "exceção, privilégio, paralisação",
+        "exceção, previlégio, paralisação",
+        "excessão, previlégio, paralização",
+        "exceção, privilégio, análize",
+        "excessão, privilégio, análise",
+      ],
+      a: 0,
+      e: "Grafias corretas: exceção (com ç), privilégio (pri-), paralisação (de “paralisar”, com s) e análise (com s).",
+    },
+    {
+      s: "lp",
+      q: "Em “Se o candidato estudasse mais, seria aprovado”, as formas verbais destacadas indicam",
+      o: [
+        "um fato passado concluído.",
+        "uma hipótese e sua consequência possível.",
+        "uma ordem dirigida ao candidato.",
+        "uma ação habitual no presente.",
+        "um fato futuro certo.",
+      ],
+      a: 1,
+      e: "Pretérito imperfeito do subjuntivo (estudasse) + futuro do pretérito (seria) formam o período hipotético: uma condição irreal ou pouco provável e sua consequência.",
+    },
+    {
+      s: "lp",
+      q: "No trecho “A Dataprev processa milhões de benefícios por mês. A empresa pública tornou-se peça central da previdência”, a expressão “A empresa pública” constitui um mecanismo de coesão por",
+      o: [
+        "catáfora, pois antecipa um termo que aparecerá depois.",
+        "repetição literal do termo.",
+        "elipse do sujeito.",
+        "dêixis temporal.",
+        "retomada anafórica por expressão nominal.",
+      ],
+      a: 4,
+      e: "“A empresa pública” retoma “A Dataprev”, já mencionada: é uma anáfora por substituição lexical (expressão nominal/hiperônimo), evitando repetição.",
+    },
+    {
+      s: "lp",
+      q: "Em “A decisão foi ratificada pelo conselho”, o termo “ratificada” pode ser substituído, sem alteração de sentido, por",
+      o: ["corrigida.", "revogada.", "confirmada.", "suspensa.", "proposta."],
+      a: 2,
+      e: "Ratificar = confirmar, validar. Atenção ao parônimo “retificar”, que significa corrigir.",
+    },
+    {
+      s: "lp",
+      q: "Assinale a opção em que o parônimo foi empregado adequadamente.",
+      o: [
+        "O invasor foi pego em fragrante delito.",
+        "O juiz diferiu o pedido, concedendo-o de imediato.",
+        "O artista vai expiar suas obras na galeria.",
+        "A cessão de direitos foi registrada em cartório.",
+        "O estrangeiro emigrou para o Brasil e chegou a São Paulo.",
+      ],
+      a: 3,
+      e: "Cessão = ato de ceder. Os demais: flagrante (não fragrante), deferiu (conceder; diferir = adiar), expor (expiar = pagar culpa), imigrou (entrou no país; emigrar = sair).",
+    },
+    {
+      s: "lp",
+      q: "Assinale a reescrita que mantém o sentido de “Caso o sistema não responda, reinicie o servidor”.",
+      o: [
+        "Porque o sistema não responde, reinicie o servidor.",
+        "Se o sistema não responder, reinicie o servidor.",
+        "Para que o sistema não responda, reinicie o servidor.",
+        "À medida que o sistema não responde, reinicie o servidor.",
+        "Embora o sistema não responda, reinicie o servidor.",
+      ],
+      a: 1,
+      e: "“Caso” e “se” são conjunções condicionais. As demais alteram a relação para causa, concessão, finalidade e proporção.",
+    },
+    {
+      s: "lp",
+      q: "Transpondo-se “A equipe implantou o novo módulo” para a voz passiva analítica, obtém-se:",
+      o: [
+        "O novo módulo é implantado pela equipe.",
+        "O novo módulo tinha sido implantado pela equipe.",
+        "O novo módulo foi implantado pela equipe.",
+        "O novo módulo seria implantado pela equipe.",
+        "Implantou-se o novo módulo pela equipe.",
+      ],
+      a: 2,
+      e: "Na passiva analítica, usa-se ser + particípio, mantendo o tempo do verbo original (pretérito perfeito “implantou” → “foi implantado”). A passiva sintética (com “se”) não admite agente da passiva.",
+    },
+    {
+      s: "lp",
+      q: "Assinale a opção em que a palavra “bastante” funciona como advérbio.",
+      o: [
+        "Os testes foram bastante rigorosos.",
+        "Havia bastantes erros no código.",
+        "Já temos provas bastantes.",
+        "Bastantes candidatos faltaram.",
+        "Há bastantes motivos para revisar.",
+      ],
+      a: 0,
+      e: "Como advérbio, “bastante” é invariável e intensifica adjetivo, verbo ou advérbio (bastante rigorosos). Nas demais, acompanha substantivo e varia (pronome indefinido ou adjetivo = suficientes).",
+    },
+    {
+      s: "lp",
+      q: "“Acesse o portal, clique em ‘Entrar’ e informe seu CPF. Em seguida, confirme o código enviado por SMS.” O trecho apresenta predominantemente o tipo textual",
+      o: [
+        "injuntivo.",
+        "descritivo.",
+        "narrativo.",
+        "argumentativo.",
+        "expositivo.",
+      ],
+      a: 0,
+      e: "O tipo injuntivo (instrucional) orienta o leitor a realizar ações, com verbos no imperativo e sequência de passos, como em manuais e tutoriais.",
+    },
+    {
+      s: "lp",
+      t: "lpA",
+      q: "De acordo com o Texto I, a ideia central do autor é que",
+      o: [
+        "a digitalização deve ser interrompida até que todos tenham internet.",
+        "os canais presenciais são mais eficientes que os digitais.",
+        "o celular resolveu todos os problemas de acesso à previdência.",
+        "a digitalização traz benefícios, mas exige manter canais alternativos para não excluir parte da população.",
+        "a tecnologia não tem função pública.",
+      ],
+      a: 3,
+      e: "O texto reconhece ganhos da digitalização e, com o “Contudo”, aponta o risco de exclusão, concluindo que canais presenciais e telefônicos seguem indispensáveis.",
+    },
+    {
+      s: "lp",
+      t: "lpA",
+      q: "Em “a porta digital pode se tornar um muro”, o autor emprega a figura de linguagem denominada",
+      o: ["metáfora.", "metonímia.", "hipérbole.", "eufemismo.", "ironia."],
+      a: 0,
+      e: "Há metáfora: comparação implícita em que a “porta” (acesso) se transforma em “muro” (barreira) para quem não domina a tecnologia.",
+    },
+    {
+      s: "lp",
+      t: "lpA",
+      q: "No Texto I, o conector “Contudo” poderia ser substituído, sem alteração de sentido, por",
+      o: ["Portanto.", "No entanto.", "Porque.", "Assim.", "Ademais."],
+      a: 1,
+      e: "“Contudo” é adversativo, assim como “No entanto”. “Portanto” e “Assim” são conclusivos; “Porque” é causal/explicativo; “Ademais” é aditivo.",
+    },
+    {
+      s: "lp",
+      q: "Assinale a opção em que o acento grave indicativo de crase é FACULTATIVO.",
+      o: [
+        "O ônibus chegou às 10h.",
+        "Refiro-me à sua proposta.",
+        "Fiz referência à lei em vigor.",
+        "Vou à Bahia nas férias.",
+        "Ele saiu à francesa.",
+      ],
+      a: 1,
+      e: "Antes de pronome possessivo feminino singular, o artigo é opcional; logo, a crase é facultativa (a sua / à sua). Nas demais, a crase é obrigatória (horas, Bahia com artigo, “a lei”, locução “à francesa”).",
+    },
+    {
+      s: "lp",
+      q: "Assinale a opção correta quanto à concordância verbal.",
+      o: [
+        "Fazem cinco anos que o portal foi lançado.",
+        "Haviam muitos candidatos na sala.",
+        "Deve existir várias alternativas para o problema.",
+        "Aluga-se apartamentos próximos ao metrô.",
+        "Faz cinco anos que o portal foi lançado.",
+      ],
+      a: 4,
+      e: "“Fazer”, indicando tempo decorrido, é impessoal: faz cinco anos. “Haver” (existir) também é impessoal (havia). “Devem existir várias alternativas” e “Alugam-se apartamentos” concordam com o sujeito plural.",
+    },
+    {
+      s: "en",
+      t: "enA",
+      q: "The main purpose of TEXT 1 is to",
+      o: [
+        "advertise a chatbot developed by a social security agency.",
+        "report a specific case of a retiree who lost a benefit.",
+        "argue that governments should ban large language models.",
+        "explain how to build a large language model.",
+        "discuss the benefits and risks of using generative AI in public services.",
+      ],
+      a: 4,
+      e: "The text presents efficiency gains (benefits) and concerns such as hallucination and transparency (risks), concluding that AI must be used responsibly.",
+    },
+    {
+      s: "en",
+      t: "enA",
+      q: "According to TEXT 1, “hallucination” refers to",
+      o: [
+        "a citizen who refuses to talk to a machine.",
+        "a system that stops working under heavy traffic.",
+        "answers that sound fluent but contain false information.",
+        "the slow response time of government websites.",
+        "an employee who reviews the AI's output.",
+      ],
+      a: 2,
+      e: "The text defines it: models “can produce fluent answers that are factually wrong, a phenomenon known as hallucination”.",
+    },
+    {
+      s: "en",
+      t: "enA",
+      q: "In “However, experts warn that these tools must be deployed carefully”, the word “However” introduces",
+      o: [
+        "an example.",
+        "a contrast.",
+        "an addition.",
+        "a cause.",
+        "a time sequence.",
+      ],
+      a: 1,
+      e: "“However” is a contrast marker (= porém, no entanto). It opposes the efficiency gains of the first paragraph to the warnings that follow.",
+    },
+    {
+      s: "en",
+      t: "enA",
+      q: "In “If a chatbot tells a retiree that she is not entitled to a benefit”, the pronoun “she” refers to",
+      o: [
+        "the chatbot.",
+        "an expert.",
+        "a retiree.",
+        "the agency.",
+        "a civil servant.",
+      ],
+      a: 2,
+      e: "“She” retrieves the closest compatible noun: “a retiree” (aposentada), the person who could be wrongly informed.",
+    },
+    {
+      s: "en",
+      t: "enA",
+      q: "The “human-in-the-loop” approach mentioned in TEXT 1 means that",
+      o: [
+        "humans are replaced by AI in all decisions.",
+        "the AI reviews the work of civil servants.",
+        "citizens must train the language model.",
+        "only humans answer citizens' questions.",
+        "an employee checks the AI's output before a decision is made.",
+      ],
+      a: 4,
+      e: "The text explains: “an employee reviews the AI's output before any decision is made”.",
+    },
+    {
+      s: "en",
+      t: "enA",
+      q: "The last sentence of TEXT 1, “The question is no longer whether governments will use it, but how they will use it responsibly”, suggests that",
+      o: [
+        "governments have not decided whether to use AI.",
+        "AI will soon disappear from public administration.",
+        "responsible use of AI is impossible.",
+        "the use of AI is seen as inevitable; the focus is on using it responsibly.",
+        "only private companies will use AI.",
+      ],
+      a: 3,
+      e: "“No longer whether... but how” means the debate moved from IF to HOW: adoption is taken for granted and the concern is responsible use.",
+    },
+    {
+      s: "en",
+      t: "enB",
+      q: "According to TEXT 2, DevOps is primarily",
+      o: [
+        "a set of monitoring dashboards.",
+        "a programming language for pipelines.",
+        "a method to reward developers for new features.",
+        "a cultural change that brings development and operations together.",
+        "a type of container platform.",
+      ],
+      a: 3,
+      e: "The text states: “DevOps is primarily a cultural change that breaks down the wall between those who write code and those who run it”.",
+    },
+    {
+      s: "en",
+      t: "enB",
+      q: "Why do developers and operations teams tend to blame each other, according to TEXT 2?",
+      o: [
+        "Because developers are rewarded for new features and operations for stability.",
+        "Because they use different programming languages.",
+        "Because operations teams write most of the code.",
+        "Because tools are too expensive.",
+        "Because they deploy small changes frequently.",
+      ],
+      a: 0,
+      e: "Goals conflict: developers are rewarded for delivering features (change) and operations for keeping systems stable, which leads to the “blame game”.",
+    },
+    {
+      s: "en",
+      t: "enB",
+      q: "The sentence “Had the industry focused only on automation, these improvements would never have happened” is equivalent to:",
+      o: [
+        "If the industry had focused only on automation, these improvements would never have happened.",
+        "The industry has focused only on automation, so the improvements happened.",
+        "If the industry focuses only on automation, the improvements will happen.",
+        "The industry had to focus on automation to get improvements.",
+        "Although the industry focused on automation, the improvements happened.",
+      ],
+      a: 0,
+      e: "It is a third conditional with inversion: “Had + subject + past participle” = “If + subject + had + past participle”, describing an unreal past situation.",
+    },
+    {
+      s: "en",
+      t: "enB",
+      q: "In TEXT 2, the expression “roll back” in “easier to roll back” means",
+      o: [
+        "to speed up a release.",
+        "to test a release in production.",
+        "to document a change.",
+        "to return to a previous version.",
+        "to approve a deployment.",
+      ],
+      a: 3,
+      e: "To roll back is to undo a deployment and revert to the previous stable version — easier when changes are small.",
+    },
+    {
+      s: "en",
+      t: "enB",
+      q: "In “Tools are important, but they are not enough”, the pronoun “they” refers to",
+      o: ["companies.", "teams.", "tools.", "dashboards only.", "developers."],
+      a: 2,
+      e: "“They” retrieves the subject of the first clause: “Tools”.",
+    },
+    {
+      s: "en",
+      t: "enB",
+      q: "Based on TEXT 2, choose the correct statement.",
+      o: [
+        "Automation creates good practices by itself.",
+        "Teams practicing DevOps deploy large changes rarely.",
+        "Buying tools is the only step needed to adopt DevOps.",
+        "Deployment frequency and change failure rate are examples of performance metrics.",
+        "Operations teams are rewarded for delivering features.",
+      ],
+      a: 3,
+      e: "The text lists deployment frequency, lead time for changes, change failure rate and time to restore service as metrics (the DORA metrics). The other options contradict the text.",
+    },
+    {
+      s: "en",
+      t: "enC",
+      q: "According to TEXT 3, the attackers were able to access the data because",
+      o: [
+        "a known vulnerability in an outdated library had not been patched.",
+        "a zero-day vulnerability was discovered.",
+        "an employee shared a password.",
+        "the payment provider was hacked.",
+        "the firewall was turned off.",
+      ],
+      a: 0,
+      e: "The attackers “exploited an outdated library”; the vulnerability had been disclosed eight months earlier and the available patch was never applied.",
+    },
+    {
+      s: "en",
+      t: "enC",
+      q: "In “The vulnerability had been publicly disclosed eight months earlier”, the verb tense indicates",
+      o: [
+        "an action completed before another past event.",
+        "a habitual action in the present.",
+        "an action that will happen in the future.",
+        "an action happening at the moment of speaking.",
+        "a hypothetical situation.",
+      ],
+      a: 0,
+      e: "Past perfect (had been + participle) describes an action that happened before another past moment — here, before the attack was announced.",
+    },
+    {
+      s: "en",
+      t: "enC",
+      q: "Payment card numbers were NOT affected because",
+      o: [
+        "they were encrypted by the hospital.",
+        "they are stored by a separate provider.",
+        "hackers were not interested in them.",
+        "the hospital does not accept cards.",
+        "they had been deleted earlier.",
+      ],
+      a: 1,
+      e: "The text says: “payment card numbers were not affected because they are stored by a separate provider”.",
+    },
+    {
+      s: "en",
+      t: "enC",
+      q: "In “Regulators have opened an investigation and may impose fines”, the modal “may” expresses",
+      o: [
+        "obligation.",
+        "prohibition.",
+        "certainty.",
+        "possibility.",
+        "ability in the past.",
+      ],
+      a: 3,
+      e: "“May” indicates possibility: fines might be imposed, but it is not certain yet.",
+    },
+    {
+      s: "en",
+      t: "enC",
+      q: "The word “neglect” in “organizations ... neglect the less visible task” is closest in meaning to",
+      o: ["automate.", "prioritize.", "overlook.", "celebrate.", "outsource."],
+      a: 2,
+      e: "To neglect = to fail to give proper attention; synonym: overlook (negligenciar, deixar de lado).",
+    },
+    {
+      s: "en",
+      t: "enC",
+      q: "The analyst's comment “They involve doors that were left unlocked” means that most breaches",
+      o: [
+        "exploit known weaknesses that were not fixed.",
+        "depend on brilliant new techniques.",
+        "are caused by physical break-ins.",
+        "happen only in hospitals.",
+        "are impossible to prevent.",
+      ],
+      a: 0,
+      e: "It is a metaphor: “unlocked doors” are known, avoidable weaknesses (like unpatched components), as opposed to sophisticated zero-day attacks.",
+    },
+    {
+      s: "en",
+      t: "enD",
+      q: "In “many developers dread it”, the verb “dread” is closest in meaning to",
+      o: ["enjoy.", "request.", "fear.", "ignore.", "lead."],
+      a: 2,
+      e: "To dread = to fear, to anticipate with anxiety (temer).",
+    },
+    {
+      s: "en",
+      t: "enD",
+      q: "In “Code review is one of the most effective practices ..., yet many developers dread it”, the word “yet” can be replaced by",
+      o: ["so.", "nevertheless.", "because.", "therefore.", "moreover."],
+      a: 1,
+      e: "Here “yet” is a contrastive conjunction (= but / nevertheless). “So” and “therefore” express result; “because” cause; “moreover” addition.",
+    },
+    {
+      s: "en",
+      t: "enD",
+      q: "According to TEXT 4, pull requests should be kept small because",
+      o: [
+        "large ones cannot be merged.",
+        "reviewers tend to skim and approve large ones without careful analysis.",
+        "linters do not work on large files.",
+        "small ones do not need review.",
+        "managers prefer fewer lines of code.",
+      ],
+      a: 1,
+      e: "“When faced with 2,000 lines, most people simply skim and approve”, while 200 lines can be analyzed carefully.",
+    },
+    {
+      s: "en",
+      t: "enD",
+      q: "According to TEXT 4, which tasks should be handled by linters and static analysis tools?",
+      o: [
+        "Business logic and design.",
+        "Readability and architecture.",
+        "Approving pull requests.",
+        "Negotiating deadlines.",
+        "Formatting, style rules and simple bugs.",
+      ],
+      a: 4,
+      e: "The text says formatting, style rules and simple bugs can be detected automatically, leaving humans to focus on design, readability and business logic.",
+    },
+    {
+      s: "en",
+      t: "enD",
+      q: "In “Could we extract this logic into a separate method so that it's easier to test?”, the expression “so that” introduces",
+      o: [
+        "a concession.",
+        "a contrast.",
+        "a condition.",
+        "a comparison.",
+        "a purpose.",
+      ],
+      a: 4,
+      e: "“So that” introduces purpose (para que): the logic is extracted in order to make testing easier.",
+    },
+    {
+      s: "en",
+      t: "enD",
+      q: "The final sentence, “Reviews should be a conversation between colleagues, not an exam”, suggests that code reviews should be",
+      o: [
+        "graded with scores.",
+        "collaborative rather than judgmental.",
+        "done only by managers.",
+        "avoided whenever possible.",
+        "fully automated.",
+      ],
+      a: 1,
+      e: "Contrasting “conversation between colleagues” with “exam” emphasizes collaboration and learning instead of evaluation and judgment.",
+    },
+    {
+      s: "rl",
+      q: "A proposição logicamente equivalente a “Se o teste falha, então o deploy é cancelado” é:",
+      o: [
+        "O teste falha e o deploy é cancelado.",
+        "Se o deploy é cancelado, então o teste falha.",
+        "O teste não falha ou o deploy é cancelado.",
+        "Se o teste não falha, então o deploy não é cancelado.",
+        "O teste falha ou o deploy não é cancelado.",
+      ],
+      a: 2,
+      e: "p → q ≡ ¬p ∨ q. Também equivale à contrapositiva (¬q → ¬p). A recíproca (q → p) e a inversa (¬p → ¬q) NÃO são equivalentes.",
+    },
+    {
+      s: "rl",
+      q: "A negação de “Todos os testes automatizados passaram” é:",
+      o: [
+        "Algum teste automatizado não passou.",
+        "Nenhum teste automatizado passou.",
+        "Todos os testes automatizados falharam.",
+        "Algum teste automatizado passou.",
+        "Nenhum teste automatizado falhou.",
+      ],
+      a: 0,
+      e: "Negação do quantificador universal: ¬(∀x P(x)) ≡ ∃x ¬P(x). Basta existir ao menos um teste que não passou.",
+    },
+    {
+      s: "rl",
+      q: "A negação de “Ana programa em Java e Carlos testa a aplicação” é:",
+      o: [
+        "Ana não programa em Java e Carlos não testa a aplicação.",
+        "Ana programa em Java ou Carlos testa a aplicação.",
+        "Se Ana programa em Java, então Carlos testa a aplicação.",
+        "Ana não programa em Java ou Carlos não testa a aplicação.",
+        "Ana não programa em Java se, e somente se, Carlos não testa a aplicação.",
+      ],
+      a: 3,
+      e: "Lei de De Morgan: ¬(p ∧ q) ≡ ¬p ∨ ¬q. Nega-se cada parte e troca-se o “e” pelo “ou”.",
+    },
+    {
+      s: "rl",
+      q: "Uma proposição composta é formada por 4 proposições simples distintas. O número de linhas da sua tabela-verdade é:",
+      o: ["4", "8", "12", "16", "32"],
+      a: 3,
+      e: "O número de linhas é 2ⁿ, em que n é o número de proposições simples: 2⁴ = 16.",
+    },
+    {
+      s: "rl",
+      q: "Assinale a proposição que é uma tautologia.",
+      o: ["p ∧ ¬p", "p → q", "p ∨ ¬p", "p ∨ q", "p ↔ q"],
+      a: 2,
+      e: "p ∨ ¬p é sempre verdadeira, qualquer que seja o valor de p (princípio do terceiro excluído). p ∧ ¬p é contradição; as demais são contingências.",
+    },
+    {
+      s: "rl",
+      q: "Assinale o argumento logicamente válido.",
+      o: [
+        "Todo programador é lógico. Alguns lógicos são músicos. Logo, alguns programadores são músicos.",
+        "Nenhum técnico é gerente. Nenhum gerente é estagiário. Logo, nenhum técnico é estagiário.",
+        "Alguns analistas são gerentes. Alguns gerentes são técnicos. Logo, alguns analistas são técnicos.",
+        "Todo gerente é analista. João é analista. Logo, João é gerente.",
+        "Todo programador é lógico. Nenhum lógico é desatento. Logo, nenhum programador é desatento.",
+      ],
+      a: 4,
+      e: "Se programadores ⊂ lógicos e lógicos não têm interseção com desatentos, então programadores também não têm. As outras conclusões não decorrem necessariamente das premissas (ex.: João ser analista não implica que seja gerente).",
+    },
+    {
+      s: "rl",
+      q: "Em uma escola, a média anual é calculada com pesos 1, 2, 3 e 4 para o 1º, 2º, 3º e 4º bimestres, somando-se as notas multiplicadas pelos pesos e dividindo-se por 10. Um aluno tirou 5, 6 e 7 nos três primeiros bimestres. Para obter média 7, a nota mínima no 4º bimestre deve ser:",
+      o: ["7", "7,5", "8", "8,5", "9"],
+      a: 2,
+      e: "5·1 + 6·2 + 7·3 + 4x ≥ 70 → 5 + 12 + 21 + 4x ≥ 70 → 38 + 4x ≥ 70 → x ≥ 8.",
+    },
+    {
+      s: "rl",
+      q: "O preço de uma licença de software aumentou 20% e, no mês seguinte, sofreu desconto de 20%. Em relação ao preço inicial, o preço final é:",
+      o: ["igual.", "4% menor.", "4% maior.", "2% menor.", "10% menor."],
+      a: 1,
+      e: "1,20 × 0,80 = 0,96, ou seja, 96% do valor inicial: redução de 4%.",
+    },
+    {
+      s: "rl",
+      q: "Observe a sequência: 2, 6, 12, 20, 30, … O próximo termo é:",
+      o: ["36", "40", "42", "44", "48"],
+      a: 2,
+      e: "Os termos são n·(n+1): 1·2, 2·3, 3·4, 4·5, 5·6; o próximo é 6·7 = 42. Também se nota que as diferenças crescem de 2 em 2 (4, 6, 8, 10, 12).",
+    },
+    {
+      s: "rl",
+      q: "Uma equipe tem 6 desenvolvedores. Quantas duplas distintas de pair programming podem ser formadas?",
+      o: ["12", "15", "30", "36", "720"],
+      a: 1,
+      e: "A ordem não importa: combinação C(6,2) = 6·5 / 2 = 15.",
+    },
+    {
+      s: "at",
+      q: "A COP30, realizada em Belém (PA) em novembro de 2025, terminou com a aprovação, por consenso, do chamado “Pacote de Belém”. Entre suas decisões, destaca-se",
+      o: [
+        "o compromisso de triplicar o financiamento para adaptação climática até 2035.",
+        "a proibição imediata do uso de combustíveis fósseis em todos os países.",
+        "a saída do Brasil do Acordo de Paris.",
+        "a criação de um imposto global sobre carbono cobrado pela ONU.",
+        "a meta obrigatória de desmatamento zero até 2026.",
+      ],
+      a: 0,
+      e: "O Pacote de Belém incluiu o compromisso de triplicar o financiamento à adaptação até 2035. Não houve consenso sobre um roteiro para o fim dos combustíveis fósseis nem sobre o fim do desmatamento.",
+    },
+    {
+      s: "at",
+      q: "Durante a COP30, o Brasil lançou um mecanismo financeiro destinado a remunerar países que mantêm suas florestas tropicais em pé. Esse mecanismo é o",
+      o: [
+        "Fundo Amazônia.",
+        "Fundo Florestas Tropicais para Sempre (TFFF).",
+        "Fundo Verde para o Clima (GCF).",
+        "Mecanismo de Desenvolvimento Limpo (MDL).",
+        "Programa REDD+ Jurisdicional.",
+      ],
+      a: 1,
+      e: "O TFFF (Tropical Forest Forever Facility) foi a proposta brasileira lançada na COP30 para pagar países pela conservação de florestas tropicais.",
+    },
+    {
+      s: "at",
+      q: "A Medida Provisória nº 1.317/2025, aprovada pelo Congresso em 2026, alterou a estrutura da ANPD. Sobre essa mudança, é correto afirmar que",
+      o: [
+        "a ANPD foi extinta e suas funções passaram ao Ministério da Fazenda.",
+        "a LGPD foi revogada e substituída pela MP.",
+        "a ANPD tornou-se um órgão do Poder Judiciário.",
+        "a ANPD passou a ser a Agência Nacional de Proteção de Dados, agência reguladora com autonomia e vinculada ao Ministério da Justiça e Segurança Pública.",
+        "a ANPD perdeu a competência para aplicar sanções.",
+      ],
+      a: 3,
+      e: "A MP transformou a Autoridade em Agência Nacional de Proteção de Dados (mantendo a sigla), com autonomia funcional, técnica, decisória, administrativa e financeira, vinculada ao MJSP e com nova carreira própria.",
+    },
+    {
+      s: "at",
+      q: "O Estatuto Digital da Criança e do Adolescente (ECA Digital), instituído pela Lei nº 15.211/2025, tem como objetivo principal",
+      o: [
+        "proteger crianças e adolescentes no ambiente digital, cabendo à ANPD regulamentar e fiscalizar parte de suas regras.",
+        "regular o comércio eletrônico entre empresas.",
+        "proibir o uso de celulares por menores de 18 anos.",
+        "criar a carteira de identidade digital infantil.",
+        "regulamentar o uso de IA em escolas públicas.",
+      ],
+      a: 0,
+      e: "O ECA Digital estabelece medidas de proteção a crianças e adolescentes em serviços digitais; uma das razões para fortalecer a ANPD foi justamente a atribuição de regulamentá-lo e fiscalizá-lo.",
+    },
+    {
+      s: "at",
+      q: "Sancionada em novembro de 2025, a lei que alterou o Imposto de Renda da Pessoa Física estabeleceu",
+      o: [
+        "a extinção do Imposto de Renda para todos os assalariados.",
+        "aumento da alíquota máxima para 35%.",
+        "isenção para quem ganha até R$ 5 mil por mês, compensada por tributação mínima sobre altas rendas.",
+        "isenção apenas para aposentados do INSS.",
+        "a substituição do IR por um imposto sobre transações financeiras.",
+      ],
+      a: 2,
+      e: "A lei ampliou a isenção do IRPF para rendimentos de até R$ 5 mil mensais (com redução parcial até cerca de R$ 7.350), válida para rendimentos a partir de 2026, compensada pela tributação mínima de quem recebe mais de R$ 600 mil por ano.",
+    },
+    {
+      s: "at",
+      q: "O Projeto de Lei nº 2.338/2023, conhecido como Marco Legal da Inteligência Artificial, aprovado pelo Senado em dezembro de 2024 e enviado à Câmara, adota como lógica central",
+      o: [
+        "a proibição total de sistemas de IA generativa no Brasil.",
+        "a autorregulação exclusiva pelas empresas de tecnologia.",
+        "a classificação dos sistemas de IA por grau de risco, com obrigações proporcionais e vedação de usos de risco excessivo.",
+        "a exigência de licença prévia para qualquer software.",
+        "a regulação apenas de veículos autônomos.",
+      ],
+      a: 2,
+      e: "O PL segue uma abordagem baseada em risco (semelhante ao AI Act europeu): sistemas de risco excessivo são vedados e os de alto risco têm obrigações mais rigorosas de governança.",
+    },
+    {
+      s: "at",
+      q: "Um modelo é treinado com milhares de pedidos de benefício já rotulados como “deferido” ou “indeferido” para prever o resultado de novos pedidos. Esse é um exemplo de aprendizado",
+      o: [
+        "não supervisionado.",
+        "por reforço.",
+        "simbólico baseado em regras.",
+        "semissupervisionado por agrupamento.",
+        "supervisionado.",
+      ],
+      a: 4,
+      e: "No aprendizado supervisionado, o modelo aprende a partir de exemplos com rótulos conhecidos (classificação/regressão). Não supervisionado busca padrões sem rótulos; por reforço aprende com recompensas.",
+    },
+    {
+      s: "at",
+      q: "Os grandes modelos de linguagem (LLMs), como os usados em chatbots generativos, são baseados principalmente na arquitetura",
+      o: [
+        "Transformer, com mecanismo de atenção.",
+        "de árvores de decisão.",
+        "de sistemas especialistas com regras fixas.",
+        "de redes de Kohonen.",
+        "de algoritmos genéticos.",
+      ],
+      a: 0,
+      e: "LLMs modernos usam a arquitetura Transformer (2017), cujo mecanismo de atenção pondera a relação entre os tokens do texto para prever o próximo token.",
+    },
+    {
+      s: "at",
+      q: "Para reduzir alucinações de um assistente de IA que responde dúvidas sobre normas previdenciárias, a equipe passou a buscar trechos relevantes dos normativos oficiais e incluí-los no contexto do modelo antes da geração da resposta. Essa técnica é conhecida como",
+      o: [
+        "overfitting.",
+        "RAG (Retrieval-Augmented Generation).",
+        "backpropagation.",
+        "clustering.",
+        "data augmentation.",
+      ],
+      a: 1,
+      e: "RAG combina recuperação de documentos com geração: o modelo responde com base em fontes recuperadas, o que reduz respostas inventadas e permite citar a origem.",
+    },
+    {
+      s: "at",
+      q: "Um sistema de IA treinado com dados históricos de contratações passou a recomendar menos mulheres para cargos técnicos. Esse problema é um exemplo de",
+      o: [
+        "falha de hardware.",
+        "viés algorítmico decorrente de dados de treinamento enviesados.",
+        "underfitting por excesso de dados.",
+        "ataque de negação de serviço.",
+        "criptografia fraca.",
+      ],
+      a: 1,
+      e: "Modelos aprendem padrões dos dados; se o histórico reflete discriminação, o modelo tende a reproduzi-la. Por isso governança de IA inclui auditoria de dados e de resultados.",
+    },
+    {
+      s: "at",
+      q: "Um modelo apresenta acurácia de 99% nos dados de treinamento, mas apenas 60% em dados novos. Esse comportamento caracteriza",
+      o: [
+        "underfitting.",
+        "aprendizado por reforço.",
+        "normalização.",
+        "generalização adequada.",
+        "overfitting.",
+      ],
+      a: 4,
+      e: "Overfitting (sobreajuste): o modelo “decora” o treinamento e generaliza mal. Técnicas como validação cruzada, regularização e mais dados ajudam a evitá-lo.",
+    },
+    {
+      s: "at",
+      q: "Quanto à ética, governança e privacidade em IA, a LGPD garante ao titular de dados o direito de",
+      o: [
+        "exigir que nenhum sistema automatizado seja usado no país.",
+        "receber indenização automática por qualquer uso de IA.",
+        "acessar o código-fonte de qualquer modelo de IA.",
+        "solicitar a revisão de decisões tomadas unicamente com base em tratamento automatizado que afetem seus interesses.",
+        "impedir o uso de dados anonimizados em pesquisas.",
+      ],
+      a: 3,
+      e: "O art. 20 da LGPD assegura a revisão de decisões tomadas unicamente com base em tratamento automatizado (inclusive perfis), e o controlador deve fornecer informações claras sobre os critérios usados.",
+    },
+    {
+      s: "lg",
+      q: "Segundo a Lei nº 12.527/2011 (LAI), não sendo possível conceder acesso imediato à informação, o órgão deverá responder em prazo não superior a",
+      o: [
+        "10 dias, prorrogáveis por mais 10.",
+        "15 dias, improrrogáveis.",
+        "20 dias, prorrogáveis por mais 10, mediante justificativa expressa.",
+        "30 dias, prorrogáveis por mais 30.",
+        "48 horas.",
+      ],
+      a: 2,
+      e: "Art. 11 da LAI: prazo de até 20 dias, prorrogável por mais 10 dias, mediante justificativa expressa, da qual o requerente será cientificado.",
+    },
+    {
+      s: "lg",
+      q: "De acordo com a LAI, os prazos máximos de restrição de acesso à informação classificada como ultrassecreta, secreta e reservada são, respectivamente:",
+      o: [
+        "50, 25 e 10 anos.",
+        "25, 15 e 5 anos.",
+        "20, 10 e 5 anos.",
+        "30, 20 e 10 anos.",
+        "25, 10 e 5 anos.",
+      ],
+      a: 1,
+      e: "Art. 24, § 1º: ultrassecreta — 25 anos; secreta — 15 anos; reservada — 5 anos.",
+    },
+    {
+      s: "lg",
+      q: "Um cidadão apresentou pedido de acesso a informações sobre contratos de TI de uma empresa pública. Segundo a LAI, o órgão",
+      o: [
+        "pode exigir que o cidadão justifique os motivos do pedido.",
+        "deve negar o pedido se o solicitante não for servidor público.",
+        "só pode atender pedidos feitos presencialmente.",
+        "não pode exigir os motivos determinantes da solicitação de informações de interesse público.",
+        "deve cobrar taxa pela busca da informação.",
+      ],
+      a: 3,
+      e: "Art. 10, § 3º: são vedadas quaisquer exigências relativas aos motivos da solicitação de informações de interesse público. O serviço de busca é, em regra, gratuito (art. 12).",
+    },
+    {
+      s: "lg",
+      q: "A Lei nº 12.737/2012, em seu art. 2º, acrescentou ao Código Penal o crime de invasão de dispositivo informático (art. 154-A). Sobre esse crime, é correto afirmar que",
+      o: [
+        "só é punido se houver prejuízo econômico comprovado.",
+        "não se aplica a dispositivos móveis.",
+        "aplica-se apenas a computadores conectados à internet.",
+        "é sempre de ação penal pública incondicionada.",
+        "incorre na mesma pena quem produz, oferece, distribui, vende ou difunde dispositivo ou programa de computador com o intuito de permitir a prática da conduta.",
+      ],
+      a: 4,
+      e: "O § 1º do art. 154-A pune quem produz, oferece, distribui, vende ou difunde programa ou dispositivo destinado à invasão. A conduta alcança dispositivos conectados ou não à rede.",
+    },
+    {
+      s: "lg",
+      q: "Nos crimes de invasão de dispositivo informático (art. 154-A do Código Penal, incluído pela Lei nº 12.737/2012), a ação penal é",
+      o: [
+        "pública incondicionada em qualquer caso.",
+        "pública condicionada à representação, salvo se o crime for cometido contra a administração pública direta ou indireta, ou contra concessionárias de serviços públicos.",
+        "privada, mediante queixa.",
+        "pública condicionada à requisição do Ministro da Justiça.",
+        "inexistente, pois a conduta é infração administrativa.",
+      ],
+      a: 1,
+      e: "Art. 154-B: procede-se mediante representação, salvo se o crime é cometido contra a administração pública direta ou indireta de qualquer dos Poderes da União, Estados, DF ou Municípios, ou contra empresas concessionárias de serviços públicos.",
+    },
+    {
+      s: "lg",
+      q: "Segundo o Marco Civil da Internet (Lei nº 12.965/2014), o princípio da neutralidade de rede determina que o responsável pela transmissão, comutação ou roteamento",
+      o: [
+        "tem o dever de tratar de forma isonômica quaisquer pacotes de dados, sem distinção por conteúdo, origem e destino, serviço, terminal ou aplicação.",
+        "pode priorizar pacotes de aplicativos parceiros.",
+        "deve bloquear conteúdos considerados ofensivos sem ordem judicial.",
+        "pode cobrar valores diferentes conforme o site acessado.",
+        "deve guardar o conteúdo das comunicações por 5 anos.",
+      ],
+      a: 0,
+      e: "Art. 9º: tratamento isonômico dos pacotes de dados. Discriminação ou degradação de tráfego só é admitida por requisitos técnicos indispensáveis ou priorização de serviços de emergência, nos termos da regulamentação.",
+    },
+    {
+      s: "lg",
+      q: "Pelo Marco Civil da Internet, os prazos mínimos de guarda dos registros de conexão (pelo provedor de conexão) e dos registros de acesso a aplicações (pelo provedor de aplicações constituído como pessoa jurídica com fins econômicos) são, respectivamente:",
+      o: [
+        "6 meses e 1 ano.",
+        "5 anos e 5 anos.",
+        "2 anos e 1 ano.",
+        "1 ano e 6 meses.",
+        "3 meses e 3 meses.",
+      ],
+      a: 3,
+      e: "Art. 13: registros de conexão — 1 ano. Art. 15: registros de acesso a aplicações — 6 meses. Ambos em ambiente controlado e de segurança, sob sigilo.",
+    },
+    {
+      s: "lg",
+      q: "Entre os direitos assegurados aos usuários pelo Marco Civil da Internet (art. 7º), inclui-se a",
+      o: [
+        "gratuidade do acesso à internet para todos.",
+        "garantia de velocidade mínima de 100 Mbps.",
+        "não suspensão da conexão à internet, salvo por débito diretamente decorrente de sua utilização.",
+        "possibilidade de exigir a remoção de qualquer conteúdo sem ordem judicial.",
+        "proibição de publicidade on-line.",
+      ],
+      a: 2,
+      e: "Art. 7º, IV: não suspensão da conexão, salvo por débito diretamente decorrente de sua utilização. Também são direitos a inviolabilidade da intimidade e o sigilo das comunicações.",
+    },
+    {
+      s: "lg",
+      q: "Segundo a LGPD (Lei nº 13.709/2018), NÃO é considerado dado pessoal sensível:",
+      o: [
+        "dado referente à saúde.",
+        "dado biométrico, quando vinculado a uma pessoa natural.",
+        "filiação a sindicato.",
+        "convicção religiosa.",
+        "endereço residencial.",
+      ],
+      a: 4,
+      e: "Art. 5º, II: são sensíveis os dados sobre origem racial ou étnica, convicção religiosa, opinião política, filiação a sindicato ou organização religiosa, filosófica ou política, saúde, vida sexual, dado genético ou biométrico. Endereço é dado pessoal comum.",
+    },
+    {
+      s: "lg",
+      q: "Uma empresa pública detectou um incidente de segurança que pode acarretar risco ou dano relevante aos titulares. Segundo a LGPD, o controlador deverá",
+      o: [
+        "comunicar à autoridade nacional e ao titular a ocorrência do incidente.",
+        "aguardar a conclusão de auditoria externa antes de qualquer comunicação.",
+        "comunicar apenas ao operador.",
+        "publicar o banco de dados afetado para garantir transparência.",
+        "comunicar somente se houver vazamento de dados sensíveis.",
+      ],
+      a: 0,
+      e: "Art. 48: o controlador deve comunicar à autoridade nacional (ANPD) e ao titular a ocorrência de incidente de segurança que possa acarretar risco ou dano relevante, em prazo razoável.",
+    },
+    {
+      s: "ce",
+      tag: "Java",
+      q: "Considere o trecho Java abaixo. Os valores impressos são, respectivamente:",
+      c: 'String a = "dev";\nString b = new String("dev");\nSystem.out.println(a == b);\nSystem.out.println(a.equals(b));',
+      o: [
+        "true e true",
+        "false e false",
+        "true e false",
+        "false e true",
+        "Erro de compilação",
+      ],
+      a: 3,
+      e: "“==” compara referências: new String cria outro objeto no heap, logo false. equals() compara o conteúdo, logo true.",
+    },
+    {
+      s: "ce",
+      tag: "Java",
+      q: "Na API de Streams do Java 8+, considere: lista.stream().filter(x -> x > 10).map(x -> x * 2); Sem nenhuma outra chamada, é correto afirmar que",
+      o: [
+        "o filtro e o mapeamento são executados imediatamente.",
+        "o resultado é uma List<Integer>.",
+        "a lista original é alterada.",
+        "é lançada uma exceção em tempo de execução.",
+        "nada é processado, pois filter e map são operações intermediárias preguiçosas (lazy) e falta uma operação terminal.",
+      ],
+      a: 4,
+      e: "Operações intermediárias (filter, map, sorted) são lazy e só rodam quando uma operação terminal (collect, forEach, count, reduce) é chamada. Streams não alteram a fonte.",
+    },
+    {
+      s: "ce",
+      tag: "JakartaEE",
+      q: "Na evolução do Java EE para o Jakarta EE, uma mudança que impactou diretamente a migração de aplicações a partir do Jakarta EE 9 foi",
+      o: [
+        "a remoção do suporte a anotações.",
+        "a substituição do JPA pelo JDBC puro.",
+        "a troca do namespace dos pacotes de javax.* para jakarta.*.",
+        "a proibição do uso de servlets.",
+        "a obrigatoriedade do uso de Kotlin.",
+      ],
+      a: 2,
+      e: "O Jakarta EE 8 manteve javax.*; o Jakarta EE 9 renomeou os pacotes para jakarta.* (ex.: jakarta.persistence, jakarta.servlet), exigindo ajuste de imports e dependências.",
+    },
+    {
+      s: "ce",
+      tag: "JPA",
+      q: 'Em JPA, num relacionamento bidirecional entre Pedido (1) e Item (N), o atributo “mappedBy” em @OneToMany(mappedBy = "pedido") indica que',
+      o: [
+        "a entidade Pedido é a dona do relacionamento e possui a chave estrangeira.",
+        "o lado Item é o dono do relacionamento, e Pedido é o lado inverso.",
+        "os itens serão sempre carregados de forma EAGER.",
+        "haverá uma tabela de junção obrigatória.",
+        "a exclusão em cascata está ativada.",
+      ],
+      a: 1,
+      e: "mappedBy fica no lado inverso e aponta o atributo do lado dono. Em 1:N, o lado “muitos” (Item, com @ManyToOne) possui a chave estrangeira e é o dono.",
+    },
+    {
+      s: "ce",
+      tag: "JPA",
+      q: "Sobre os tipos de carregamento (fetch) padrão da JPA, assinale a correta.",
+      o: [
+        "@OneToMany e @ManyToMany são EAGER por padrão.",
+        "@ManyToOne e @OneToOne são EAGER; @OneToMany e @ManyToMany são LAZY por padrão.",
+        "@ManyToOne e @OneToOne são LAZY por padrão.",
+        "Todos os relacionamentos são LAZY por padrão.",
+        "Todos os relacionamentos são EAGER por padrão.",
+      ],
+      a: 1,
+      e: "Padrões da especificação: associações para um (*ToOne) são EAGER; associações para muitos (*ToMany) são LAZY.",
+    },
+    {
+      s: "ce",
+      tag: "Hibernate",
+      q: "Ao listar 100 servidores e acessar o setor de cada um, a aplicação executa 1 consulta para a lista e mais 100 consultas para os setores. Esse problema e uma solução adequada são, respectivamente:",
+      o: [
+        "deadlock — aumentar o pool de conexões.",
+        "phantom read — usar isolamento READ UNCOMMITTED.",
+        "dirty checking — desativar o cache de primeiro nível.",
+        "lazy initialization exception — usar FetchType.LAZY em tudo.",
+        "N+1 consultas — usar JOIN FETCH (ou EntityGraph) na consulta.",
+      ],
+      a: 4,
+      e: "O problema N+1 ocorre quando cada associação é carregada por uma consulta separada. JOIN FETCH, @EntityGraph ou batch fetching carregam tudo em menos consultas.",
+    },
+    {
+      s: "ce",
+      tag: "Spring",
+      q: "Em uma aplicação Spring, um método anotado com @Transactional lança uma exceção checked (ex.: IOException) e ela não é tratada. Com a configuração padrão,",
+      o: [
+        "a transação sofre rollback automaticamente.",
+        "a transação é confirmada (commit), pois por padrão o rollback ocorre apenas para RuntimeException e Error.",
+        "o Spring converte a exceção em RuntimeException e faz rollback.",
+        "a aplicação é encerrada.",
+        "a anotação é ignorada em métodos públicos.",
+      ],
+      a: 1,
+      e: "Por padrão, o Spring faz rollback apenas para exceções não verificadas (RuntimeException) e Error. Para checked, usa-se rollbackFor = Exception.class.",
+    },
+    {
+      s: "ce",
+      tag: "SpringCloud",
+      q: "Em uma arquitetura de microsserviços com Spring Cloud, o padrão usado para evitar que falhas de um serviço lento se propaguem, interrompendo chamadas após certo número de erros e retornando um fallback, é o",
+      o: [
+        "Service Discovery.",
+        "Config Server.",
+        "Circuit Breaker.",
+        "Load Balancer.",
+        "API Composition.",
+      ],
+      a: 2,
+      e: "Circuit Breaker (ex.: Resilience4j) abre o circuito após falhas consecutivas, evitando falhas em cascata. Service Discovery (Eureka) localiza serviços; Config Server centraliza configurações.",
+    },
+    {
+      s: "ce",
+      tag: "JUnit",
+      q: "Em JUnit 5, para verificar que um método lança IllegalArgumentException ao receber CPF inválido, utiliza-se",
+      o: [
+        "@Test(expected = IllegalArgumentException.class)",
+        "assertEquals(IllegalArgumentException.class, validador.validar(cpf));",
+        "assertThrows(IllegalArgumentException.class, () -> validador.validar(cpf));",
+        "@BeforeAll",
+        "assumeTrue(false)",
+      ],
+      a: 2,
+      e: "No JUnit 5 (Jupiter), assertThrows recebe o tipo esperado e um Executable. A forma @Test(expected=...) é do JUnit 4.",
+    },
+    {
+      s: "ce",
+      tag: "JavaScript",
+      q: "Qual a saída do código JavaScript abaixo?",
+      c: "for (var i = 0; i < 3; i++) {\n  setTimeout(() => console.log(i), 0);\n}",
+      o: [
+        "0 1 2",
+        "Erro: i is not defined",
+        "0 0 0",
+        "undefined undefined undefined",
+        "3 3 3",
+      ],
+      a: 4,
+      e: "“var” tem escopo de função: as três callbacks compartilham a mesma variável, que vale 3 quando executam. Com “let” (escopo de bloco), a saída seria 0 1 2.",
+    },
+    {
+      s: "ce",
+      tag: "Front-end",
+      q: "Uma aplicação web deve funcionar offline, ser instalável na tela inicial do celular e receber notificações push. Os recursos que caracterizam esse tipo de aplicação (PWA) são:",
+      o: [
+        "WebAssembly obrigatório e WebRTC.",
+        "Applets Java e cookies.",
+        "Iframes e Flash.",
+        "Server-Side Includes e CGI.",
+        "Service Worker e Web App Manifest, servidos via HTTPS.",
+      ],
+      a: 4,
+      e: "Uma PWA usa Service Worker (cache, offline, push) e Web App Manifest (instalação, ícone), exigindo HTTPS. SPA, por sua vez, é a aplicação de página única que troca conteúdo sem recarregar.",
+    },
+    {
+      s: "ce",
+      tag: "Front-end",
+      q: "Sobre os frameworks/bibliotecas de front-end, assinale a correta.",
+      o: [
+        "React é um framework completo com injeção de dependência nativa e usa obrigatoriamente TypeScript.",
+        "React utiliza two-way data binding como padrão principal.",
+        "Vue.js não permite componentização.",
+        "Angular e React são frameworks de back-end.",
+        "Angular usa TypeScript, possui injeção de dependência e é um framework completo; React é uma biblioteca de UI baseada em componentes e Virtual DOM.",
+      ],
+      a: 4,
+      e: "Angular é um framework opinativo (TypeScript, DI, roteamento, RxJS). React foca na camada de visão, com Virtual DOM e fluxo de dados unidirecional. Vue também é baseado em componentes.",
+    },
+    {
+      s: "ce",
+      tag: "Front-end",
+      q: "A técnica que permite a uma página web enviar e receber dados do servidor de forma assíncrona, atualizando partes da página sem recarregá-la totalmente, é conhecida como",
+      o: ["CGI", "CORS", "SSR", "Ajax", "SOAP"],
+      a: 3,
+      e: "Ajax (Asynchronous JavaScript and XML) usa XMLHttpRequest ou fetch para requisições assíncronas; hoje o formato mais usado é JSON.",
+    },
+    {
+      s: "ce",
+      tag: "Acessibilidade",
+      q: "Para tornar um portal governamental acessível a usuários de leitores de tela, conforme diretrizes como WCAG e eMAG, uma prática correta é",
+      o: [
+        "usar apenas cores para indicar campos com erro.",
+        "usar imagens de texto em vez de texto real.",
+        "desabilitar o zoom do navegador.",
+        "fornecer texto alternativo (atributo alt) para imagens informativas e garantir navegação por teclado.",
+        "abrir todos os links em pop-ups automáticos.",
+      ],
+      a: 3,
+      e: "Texto alternativo, navegação por teclado, contraste adequado e não depender só da cor são princípios básicos de acessibilidade (perceptível, operável, compreensível, robusto).",
+    },
+    {
+      s: "ce",
+      tag: "UX",
+      q: "Em uma avaliação heurística de usabilidade (Nielsen), a tela de envio de requerimento não informa ao usuário se o pedido está sendo processado, se foi enviado ou se falhou. A heurística violada é",
+      o: [
+        "Reconhecer em vez de relembrar.",
+        "Estética e design minimalista.",
+        "Flexibilidade e eficiência de uso.",
+        "Visibilidade do status do sistema.",
+        "Ajuda e documentação.",
+      ],
+      a: 3,
+      e: "Visibilidade do status do sistema: o sistema deve sempre informar o que está acontecendo, com feedback adequado em tempo razoável.",
+    },
+    {
+      s: "ce",
+      tag: "Mobile",
+      q: "Uma equipe deseja desenvolver um único código-base para Android e iOS, com desempenho próximo ao nativo. Uma abordagem adequada é",
+      o: [
+        "desenvolvimento nativo separado em Kotlin e Swift.",
+        "applet Java executado no navegador.",
+        "framework multiplataforma, como Flutter ou React Native.",
+        "site estático sem JavaScript.",
+        "aplicativo desktop em Swing.",
+      ],
+      a: 2,
+      e: "Frameworks multiplataforma (cross-platform) compartilham o código entre plataformas. O nativo (Kotlin/Java no Android, Swift no iOS) exige bases separadas.",
+    },
+    {
+      s: "ce",
+      tag: "Low-code",
+      q: "Sobre plataformas low-code e no-code, é correto afirmar que",
+      o: [
+        "eliminam totalmente a necessidade de governança de TI.",
+        "só podem ser usadas por programadores experientes.",
+        "permitem construir aplicações com componentes visuais e pouco ou nenhum código, mas trazem riscos como dependência do fornecedor (lock-in) e “shadow IT”.",
+        "não permitem integração com APIs.",
+        "geram sempre código-fonte aberto e portável.",
+      ],
+      a: 2,
+      e: "Low-code acelera entregas com modelagem visual (com possibilidade de código), e no-code é voltado a usuários de negócio. Exigem governança para evitar lock-in e soluções fora do controle da TI.",
+    },
+    {
+      s: "ce",
+      tag: "SonarQube",
+      q: "No SonarQube, o conjunto de condições (como cobertura mínima de testes em código novo e nenhuma vulnerabilidade nova) que define se o projeto pode ser liberado é chamado de",
+      o: [
+        "Quality Profile",
+        "Quality Gate",
+        "Technical Debt",
+        "Code Smell",
+        "Security Hotspot",
+      ],
+      a: 1,
+      e: "O Quality Gate é a regra de aprovação/reprovação baseada em métricas. Quality Profile é o conjunto de regras de análise usadas por linguagem.",
+    },
+    {
+      s: "ce",
+      tag: "Clean Code",
+      q: "Segundo os princípios de Clean Code, assinale a prática recomendada.",
+      o: [
+        "Usar nomes curtos e genéricos, como x1 e tmp, para economizar espaço.",
+        "Usar parâmetros booleanos para alternar comportamentos dentro da mesma função.",
+        "Comentar cada linha de código para explicar o óbvio.",
+        "Escrever funções pequenas, que façam uma única coisa, com nomes que revelem a intenção.",
+        "Retornar null sempre que possível em vez de lançar exceções.",
+      ],
+      a: 3,
+      e: "Clean Code recomenda funções pequenas com responsabilidade única, nomes significativos e código autoexplicativo; flags booleanas indicam que a função faz mais de uma coisa.",
+    },
+    {
+      s: "ce",
+      tag: "Web services",
+      q: "Sobre web services SOAP e REST, assinale a correta.",
+      o: [
+        "REST exige obrigatoriamente o uso de XML e WSDL.",
+        "SOAP não permite trafegar sobre HTTP.",
+        "SOAP é stateless por definição e REST é stateful.",
+        "REST só pode ser usado com o protocolo FTP.",
+        "SOAP é um protocolo baseado em XML, com contrato formal descrito em WSDL; REST é um estilo arquitetural baseado em recursos e nos métodos HTTP.",
+      ],
+      a: 4,
+      e: "SOAP usa envelope XML e WSDL como contrato. REST (Fielding) é um estilo: recursos identificados por URI, interface uniforme (GET, POST, PUT, DELETE), comunicação sem estado, aceitando JSON, XML etc.",
+    },
+    {
+      s: "ce",
+      tag: "REST",
+      q: "Em uma API REST, quais métodos HTTP são, por definição, idempotentes?",
+      o: [
+        "POST, PUT e DELETE",
+        "GET, PUT e DELETE",
+        "GET, POST e PATCH",
+        "Apenas GET",
+        "POST e PATCH",
+      ],
+      a: 1,
+      e: "Idempotente = repetir a requisição produz o mesmo efeito no servidor. GET, HEAD, PUT, DELETE e OPTIONS são idempotentes; POST não é; PATCH não é garantidamente.",
+    },
+    {
+      s: "ce",
+      tag: "Swagger",
+      q: "Na documentação de APIs REST, a especificação OpenAPI (antiga especificação Swagger) tem como objetivo",
+      o: [
+        "criptografar o tráfego da API.",
+        "descrever de forma padronizada (YAML/JSON) endpoints, parâmetros, esquemas e respostas da API, permitindo gerar documentação e código.",
+        "substituir o protocolo HTTP.",
+        "armazenar logs de acesso.",
+        "balancear carga entre instâncias.",
+      ],
+      a: 1,
+      e: "OpenAPI é um contrato legível por máquinas e pessoas; o Swagger UI gera documentação interativa e o Swagger Codegen/OpenAPI Generator gera clientes e servidores.",
+    },
+    {
+      s: "ce",
+      tag: "Mensageria",
+      q: "Um sistema publica o evento “BeneficioConcedido”, que deve ser recebido de forma assíncrona e independente pelos sistemas de pagamento, notificação e auditoria. O modelo de mensageria adequado é",
+      o: [
+        "publish/subscribe, com um tópico e múltiplos assinantes.",
+        "ponto a ponto, com uma fila e um único consumidor.",
+        "chamada síncrona RPC para cada sistema.",
+        "compartilhamento de banco de dados entre os sistemas.",
+        "transferência de arquivos por FTP diária.",
+      ],
+      a: 0,
+      e: "No publish/subscribe, cada assinante recebe sua cópia da mensagem (ex.: tópicos Kafka, exchanges fanout no RabbitMQ). No ponto a ponto, cada mensagem é consumida por apenas um receptor.",
+    },
+    {
+      s: "ce",
+      tag: "XML/SOA",
+      q: "Sobre padrões associados a XML e web services, assinale a correta.",
+      o: [
+        "JSON é um subconjunto obrigatório do XML.",
+        "UDDI é a linguagem de consultas em bancos XML.",
+        "XSLT é uma linguagem para transformar documentos XML em outros formatos, como HTML ou outro XML.",
+        "XSD é usado para estilizar páginas web.",
+        "WSDL é o protocolo de transporte do REST.",
+      ],
+      a: 2,
+      e: "XSLT transforma XML; XSD define a estrutura (schema) de documentos XML; UDDI é um registro para publicação e descoberta de web services; WSDL descreve serviços SOAP. JSON é independente do XML.",
+    },
+    {
+      s: "ce",
+      tag: "Servidores",
+      q: "Sobre servidores web e servidores de aplicação no ecossistema Java, assinale a correta.",
+      o: [
+        "Servidores web não conseguem servir conteúdo estático.",
+        "Nginx é um servidor de aplicação Jakarta EE completo.",
+        "Apache Tomcat é um contêiner de servlets/JSP e não implementa a plataforma Jakarta EE completa, ao contrário de servidores como WildFly ou GlassFish.",
+        "WildFly não suporta EJB.",
+        "Servidores de aplicação não executam lógica de negócio.",
+      ],
+      a: 2,
+      e: "Tomcat implementa Servlet, JSP, WebSocket e EL. WildFly/GlassFish/Payara implementam o perfil completo (EJB, JMS, CDI etc.). Nginx e Apache HTTPD são servidores web/proxy reverso.",
+    },
+    {
+      s: "ce",
+      tag: "Redes",
+      q: "Uma empresa disponibiliza uma rede privada baseada em tecnologias da internet para seus empregados e libera parte dela, com autenticação, para fornecedores e parceiros. Essas redes são, respectivamente,",
+      o: [
+        "internet e intranet.",
+        "extranet e intranet.",
+        "portal e internet.",
+        "intranet e internet.",
+        "intranet e extranet.",
+      ],
+      a: 4,
+      e: "Intranet: rede privada para o público interno. Extranet: extensão da intranet acessível a usuários externos autorizados (clientes, fornecedores).",
+    },
+    {
+      s: "ce",
+      tag: "Arquitetura",
+      q: "Na arquitetura hexagonal (Ports and Adapters), é correto afirmar que",
+      o: [
+        "a lógica de negócio fica no centro e se comunica com o exterior por meio de portas (interfaces), implementadas por adaptadores (REST, banco, mensageria).",
+        "o domínio depende diretamente do framework web e do banco de dados.",
+        "existem obrigatoriamente seis camadas.",
+        "os adaptadores ficam dentro das entidades de domínio.",
+        "não é possível escrever testes unitários do domínio.",
+      ],
+      a: 0,
+      e: "O núcleo de domínio é isolado da infraestrutura. Portas definem contratos e adaptadores os implementam, o que facilita testes e troca de tecnologias. O hexágono é apenas metáfora visual.",
+    },
+    {
+      s: "ce",
+      tag: "Microsserviços",
+      q: "Em uma arquitetura de microsserviços, o componente que atua como ponto único de entrada para os clientes, realizando roteamento, autenticação e limitação de taxa (rate limiting), é o",
+      o: [
+        "Service Mesh sidecar",
+        "Message Broker",
+        "API Gateway",
+        "Banco de dados compartilhado",
+        "Load balancer de camada 2",
+      ],
+      a: 2,
+      e: "O API Gateway centraliza preocupações transversais na borda (roteamento, segurança, agregação, rate limiting), evitando que o cliente conheça cada microsserviço.",
+    },
+    {
+      s: "ce",
+      tag: "Transações distribuídas",
+      q: "Em microsserviços com banco de dados por serviço, uma operação de negócio envolve três serviços. Para manter consistência sem bloqueio global, cada serviço executa sua transação local e, em caso de falha, ações compensatórias desfazem as etapas anteriores. Esse padrão é o",
+      o: [
+        "Two-Phase Commit (2PC)",
+        "Saga",
+        "CQRS",
+        "Singleton",
+        "Strangler Fig",
+      ],
+      a: 1,
+      e: "Saga é uma sequência de transações locais com compensações (por orquestração ou coreografia), levando à consistência eventual. O 2PC usa coordenador e bloqueio, comprometendo disponibilidade e escalabilidade.",
+    },
+    {
+      s: "ce",
+      tag: "HTTPS/TLS",
+      q: "No estabelecimento de uma conexão HTTPS com TLS, é correto afirmar que",
+      o: [
+        "todo o tráfego é cifrado apenas com criptografia assimétrica.",
+        "o TLS dispensa autoridades certificadoras.",
+        "o certificado digital contém a chave privada do servidor.",
+        "a criptografia assimétrica/troca de chaves é usada no handshake para estabelecer uma chave de sessão simétrica, usada para cifrar os dados.",
+        "o SSL 3.0 é a versão mais segura e recomendada.",
+      ],
+      a: 3,
+      e: "O handshake autentica o servidor pelo certificado (assinado por uma AC) e acorda uma chave simétrica (ex.: via ECDHE), mais eficiente para os dados. SSL está obsoleto; usa-se TLS 1.2/1.3.",
+    },
+    {
+      s: "ce",
+      tag: "Blockchain",
+      q: "Sobre a tecnologia blockchain, assinale a correta.",
+      o: [
+        "Cada bloco contém o hash do bloco anterior, formando uma cadeia em que alterações são facilmente detectáveis, com registros validados por mecanismo de consenso.",
+        "É um banco de dados centralizado controlado por uma única entidade.",
+        "Permite editar livremente registros já confirmados.",
+        "Não utiliza criptografia.",
+        "Só pode ser usada para criptomoedas.",
+      ],
+      a: 0,
+      e: "O encadeamento por hash garante integridade e imutabilidade prática; o consenso (PoW, PoS, PBFT) valida os blocos em um registro distribuído. Há usos além de criptomoedas (rastreabilidade, registros).",
+    },
+    {
+      s: "ce",
+      tag: "DevOps",
+      q: "Uma equipe mantém a aplicação sempre em estado implantável, com testes automatizados no pipeline, mas a ida para produção depende de aprovação manual. Essa prática é chamada de",
+      o: [
+        "Entrega Contínua (Continuous Delivery).",
+        "Integração Contínua apenas.",
+        "Implantação Contínua (Continuous Deployment).",
+        "Big Bang Release.",
+        "Modelo cascata.",
+      ],
+      a: 0,
+      e: "Na Entrega Contínua, o software está sempre pronto para produção, mas o deploy é decidido manualmente. Na Implantação Contínua, toda mudança aprovada no pipeline vai para produção automaticamente.",
+    },
+    {
+      s: "ce",
+      tag: "Git",
+      q: "Um desenvolvedor publicou no repositório remoto compartilhado um commit com erro. Para desfazê-lo sem reescrever o histórico dos colegas, o comando mais adequado é",
+      o: [
+        "git reset --hard HEAD~1 e git push --force",
+        "git fetch",
+        "git stash",
+        "git checkout -b correcao",
+        "git revert <hash-do-commit>",
+      ],
+      a: 4,
+      e: "git revert cria um novo commit que desfaz as alterações, preservando o histórico. reset + push --force reescreve o histórico e prejudica quem já baixou o commit.",
+    },
+    {
+      s: "ce",
+      tag: "TDD",
+      q: "No Test-Driven Development (TDD), o ciclo de desenvolvimento segue a sequência",
+      o: [
+        "codificar, testar, implantar.",
+        "documentar, codificar, testar em produção.",
+        "refatorar, codificar, testar.",
+        "escrever um teste que falha (red), escrever o código mínimo para passar (green), refatorar (refactor).",
+        "testar manualmente, automatizar, codificar.",
+      ],
+      a: 3,
+      e: "Red-Green-Refactor: o teste é escrito antes do código, guiando o design; a refatoração ocorre com a segurança dos testes passando.",
+    },
+    {
+      s: "ce",
+      tag: "Testes",
+      q: "Segundo a pirâmide de testes, uma estratégia equilibrada de automação deve ter",
+      o: [
+        "muitos testes de interface (E2E) e poucos testes unitários.",
+        "a mesma quantidade de testes em todos os níveis.",
+        "apenas testes manuais.",
+        "muitos testes unitários na base, menos testes de integração e poucos testes de ponta a ponta (E2E) no topo.",
+        "somente testes de integração.",
+      ],
+      a: 3,
+      e: "Testes unitários são rápidos, baratos e estáveis, por isso formam a base. Testes E2E são lentos e frágeis, devendo ser poucos.",
+    },
+    {
+      s: "ce",
+      tag: "Testes",
+      q: "Num teste unitário, um objeto substituto é configurado para verificar se o método enviarEmail() do serviço de notificação foi chamado exatamente uma vez. Esse dublê de teste é um",
+      o: ["stub", "dummy", "mock", "fake", "spy de produção"],
+      a: 2,
+      e: "Mocks verificam comportamento/interações (ex.: Mockito verify). Stubs apenas fornecem respostas pré-definidas; dummies preenchem parâmetros; fakes têm implementação simplificada (ex.: banco em memória).",
+    },
+    {
+      s: "ce",
+      tag: "RPA",
+      q: "Sobre RPA (Robotic Process Automation), é correto afirmar que",
+      o: [
+        "consiste em robôs físicos usados em linhas de montagem.",
+        "substitui a necessidade de APIs em qualquer integração de alto volume.",
+        "automatiza tarefas repetitivas e baseadas em regras, interagindo com as interfaces dos sistemas como um usuário faria, sem exigir alteração nos sistemas existentes.",
+        "só pode ser aplicada em sistemas desenvolvidos em Java.",
+        "é indicada para processos com regras ambíguas e que mudam diariamente.",
+      ],
+      a: 2,
+      e: "RPA usa “robôs de software” que imitam ações humanas na interface (cliques, digitação, leitura de telas). É indicada para processos estáveis, repetitivos e com regras claras.",
+    },
+    {
+      s: "ce",
+      tag: "Scrum",
+      q: "De acordo com o Guia do Scrum (2020), o Scrum Team é composto por",
+      o: [
+        "Product Owner, Scrum Master e Developers.",
+        "Gerente de Projeto, Analistas e Testadores.",
+        "Product Owner, Scrum Master e Stakeholders.",
+        "Scrum Master, Arquiteto e Equipe de Desenvolvimento.",
+        "Cliente, Product Owner e Gerente Funcional.",
+      ],
+      a: 0,
+      e: "O Guia 2020 define três responsabilidades (accountabilities): Product Owner, Scrum Master e Developers, sem sub-times ou hierarquias.",
+    },
+    {
+      s: "ce",
+      tag: "Scrum",
+      q: "Sobre os eventos do Scrum, assinale a correta.",
+      o: [
+        "A Sprint Retrospective ocorre antes da Sprint Review.",
+        "A Sprint tem duração mínima de 2 meses.",
+        "A Daily Scrum tem duração máxima de 15 minutos e é um evento para os Developers.",
+        "O Product Owner deve conduzir a Daily Scrum.",
+        "A Sprint Planning é opcional.",
+      ],
+      a: 2,
+      e: "Daily: até 15 min, para os Developers inspecionarem o progresso rumo à Meta da Sprint. Sprints duram até um mês. A Retrospectiva é o último evento, após a Review.",
+    },
+    {
+      s: "ce",
+      tag: "Kanban",
+      q: "No método Kanban, a prática que limita a quantidade de itens em cada etapa do fluxo, expondo gargalos e reduzindo o tempo de ciclo, é",
+      o: [
+        "o limite de WIP (Work in Progress).",
+        "a definição de sprints fixas.",
+        "o Planning Poker.",
+        "a programação em pares.",
+        "o burndown chart.",
+      ],
+      a: 0,
+      e: "Limitar o WIP cria um sistema puxado: só se inicia um novo item quando há capacidade. Kanban não prescreve sprints nem papéis.",
+    },
+    {
+      s: "ce",
+      tag: "XP",
+      q: "São práticas características do Extreme Programming (XP):",
+      o: [
+        "programação em pares, integração contínua, TDD, pequenas entregas e propriedade coletiva do código.",
+        "documentação extensiva antes da codificação e fases sequenciais.",
+        "papéis de Product Owner e Scrum Master.",
+        "planejamento anual detalhado e congelamento de escopo.",
+        "testes somente ao final do projeto.",
+      ],
+      a: 0,
+      e: "XP enfatiza excelência técnica: pair programming, TDD, CI, refatoração, design simples, releases pequenos, propriedade coletiva e ritmo sustentável.",
+    },
+    {
+      s: "ce",
+      tag: "Padrões de projeto",
+      q: "Um sistema calcula benefícios com regras diferentes (aposentadoria por idade, por tempo de contribuição, especial). Deseja-se encapsular cada regra em uma classe intercambiável em tempo de execução, sem condicionais extensas. O padrão de projeto mais adequado é",
+      o: ["Singleton", "Strategy", "Observer", "Decorator", "Builder"],
+      a: 1,
+      e: "Strategy define uma família de algoritmos intercambiáveis por meio de uma interface comum, respeitando o princípio aberto/fechado.",
+    },
+    {
+      s: "ce",
+      tag: "Ponto de Função",
+      q: "Na Análise de Pontos de Função (IFPUG), as funções do tipo dado e do tipo transação são, respectivamente:",
+      o: [
+        "ALI e AIE; EE, SE e CE.",
+        "EE e SE; ALI e AIE.",
+        "ALI e EE; AIE, SE e CE.",
+        "CE e SE; ALI e EE.",
+        "AIE e CE; ALI, EE e SE.",
+      ],
+      a: 0,
+      e: "Funções de dados: ALI (Arquivo Lógico Interno) e AIE (Arquivo de Interface Externa). Funções de transação: EE (Entrada Externa), SE (Saída Externa) e CE (Consulta Externa).",
+    },
+    {
+      s: "ce",
+      tag: "Story Points",
+      q: "Sobre a estimativa com Story Points, é correto afirmar que",
+      o: [
+        "representam horas exatas de trabalho de um desenvolvedor.",
+        "substituem obrigatoriamente a Análise de Pontos de Função em contratos públicos.",
+        "devem ser usadas para comparar a produtividade entre equipes diferentes.",
+        "são definidos exclusivamente pelo Product Owner.",
+        "são medidas relativas de esforço, complexidade e incerteza, frequentemente estimadas com Planning Poker usando sequência semelhante à de Fibonacci.",
+      ],
+      a: 4,
+      e: "Story Points são relativos e próprios de cada time (não comparáveis entre times). Planning Poker promove consenso; a velocidade do time é usada para planejamento.",
+    },
+    {
+      s: "ce",
+      tag: "Requisitos",
+      q: "Considere os requisitos: I. O sistema deve permitir a emissão de extrato de pagamentos. II. O sistema deve responder às consultas em até 2 segundos para 95% das requisições. III. O sistema deve estar disponível 99,9% do tempo. Classificam-se como não funcionais apenas",
+      o: ["I", "II", "I e II", "II e III", "I, II e III"],
+      a: 3,
+      e: "I descreve uma funcionalidade (requisito funcional). II (desempenho) e III (disponibilidade) são atributos de qualidade, ou seja, requisitos não funcionais.",
+    },
+    {
+      s: "ce",
+      tag: "OWASP",
+      q: "Na edição 2025 do OWASP Top 10, a categoria que ocupa a primeira posição (A01) e as duas categorias novas na lista são, respectivamente:",
+      o: [
+        "Injection; Insecure Design e SSRF.",
+        "Security Misconfiguration; Authentication Failures e SSRF.",
+        "Cryptographic Failures; Security Misconfiguration e Logging Failures.",
+        "Broken Access Control; Injection e Insecure Design.",
+        "Broken Access Control; Software Supply Chain Failures e Mishandling of Exceptional Conditions.",
+      ],
+      a: 4,
+      e: "No OWASP Top 10:2025, Broken Access Control segue em A01 (agora incorporando SSRF). As novidades são A03 Software Supply Chain Failures (ampliação de “Vulnerable and Outdated Components”) e A10 Mishandling of Exceptional Conditions.",
+    },
+    {
+      s: "ce",
+      tag: "Segurança",
+      q: "A forma mais eficaz de prevenir SQL Injection em uma aplicação Java que monta consultas com dados do usuário é",
+      o: [
+        "remover espaços em branco da entrada.",
+        "usar consultas parametrizadas (PreparedStatement) ou parâmetros nomeados da JPA.",
+        "ocultar as mensagens de erro do banco, apenas.",
+        "criptografar o banco de dados.",
+        "usar HTTPS.",
+      ],
+      a: 1,
+      e: "Consultas parametrizadas separam código SQL de dados, impedindo que a entrada seja interpretada como comando. Ocultar erros e usar HTTPS não resolvem a injeção.",
+    },
+    {
+      s: "ce",
+      tag: "SAST/DAST",
+      q: "Sobre SAST e DAST, assinale a correta.",
+      o: [
+        "SAST analisa o código-fonte/binário sem executá-lo (caixa-branca); DAST testa a aplicação em execução, de fora, como caixa-preta.",
+        "SAST analisa a aplicação em execução, simulando ataques externos; DAST analisa o código-fonte.",
+        "Ambos exigem a aplicação em produção.",
+        "DAST é feito exclusivamente pelo compilador.",
+        "SAST só identifica erros de formatação.",
+      ],
+      a: 0,
+      e: "SAST: análise estática, cedo no ciclo (shift-left), aponta a linha do problema. DAST: análise dinâmica, encontra falhas de configuração e de execução, sem acesso ao código.",
+    },
+    {
+      s: "ce",
+      tag: "SDL",
+      q: "No Ciclo de Vida de Desenvolvimento Seguro (SDL), a atividade de modelagem de ameaças (por exemplo, usando STRIDE) deve ocorrer preferencialmente na fase de",
+      o: [
+        "design/projeto, antes da implementação.",
+        "manutenção, após incidentes.",
+        "implantação em produção.",
+        "descarte do sistema.",
+        "testes de aceitação do usuário.",
+      ],
+      a: 0,
+      e: "A modelagem de ameaças é feita no design, quando corrigir falhas é mais barato. STRIDE: Spoofing, Tampering, Repudiation, Information disclosure, Denial of service, Elevation of privilege.",
+    },
+    {
+      s: "ce",
+      tag: "OAuth2/SSO",
+      q: "Sobre OAuth 2.0 e SSO, assinale a correta.",
+      o: [
+        "OAuth 2.0 é um framework de autorização delegada, que emite access tokens; a autenticação (identidade) é tratada por uma camada como o OpenID Connect, base comum de soluções de SSO.",
+        "OAuth 2.0 é um protocolo de autenticação que transmite a senha do usuário ao aplicativo cliente.",
+        "SSO exige que o usuário se autentique separadamente em cada sistema.",
+        "No OAuth 2.0, o Resource Server emite os tokens de acesso.",
+        "O fluxo Authorization Code não deve ser usado em aplicações web.",
+      ],
+      a: 0,
+      e: "OAuth 2.0 define papéis (Resource Owner, Client, Authorization Server, Resource Server); quem emite tokens é o Authorization Server. OIDC acrescenta o ID Token. O Authorization Code (com PKCE) é o fluxo recomendado.",
+    },
+    {
+      s: "ce",
+      tag: "ISO 27001/27002",
+      q: "Sobre as normas ABNT NBR ISO/IEC 27001:2022 e 27002:2022, assinale a correta.",
+      o: [
+        "A ISO 27002 é a norma certificável que define requisitos do SGSI.",
+        "A ISO 27001 proíbe a análise de riscos.",
+        "A ISO 27002:2022 possui 114 controles em 14 seções.",
+        "As normas tratam exclusivamente de segurança física.",
+        "A ISO 27001 especifica requisitos para estabelecer, implementar, manter e melhorar um SGSI e é certificável; a ISO 27002:2022 é um guia com 93 controles organizados em 4 temas.",
+      ],
+      a: 4,
+      e: "Na versão 2022, a 27002 reúne 93 controles em 4 temas: organizacionais, pessoas, físicos e tecnológicos (a versão 2013 tinha 114 controles em 14 seções). A 27001 é a norma de requisitos, certificável.",
+    },
+    {
+      s: "ce",
+      tag: "Gestão de riscos",
+      q: "Na gestão de riscos de segurança da informação, uma biblioteca desatualizada com falha conhecida, um grupo criminoso interessado nos dados e o vazamento de dados de milhões de cidadãos são, respectivamente, exemplos de",
+      o: [
+        "ameaça, vulnerabilidade e impacto.",
+        "vulnerabilidade, ameaça e impacto.",
+        "impacto, ameaça e vulnerabilidade.",
+        "risco, controle e ameaça.",
+        "vulnerabilidade, impacto e ameaça.",
+      ],
+      a: 1,
+      e: "Vulnerabilidade é a fraqueza; ameaça é o agente ou evento que pode explorá-la; impacto é a consequência. Risco combina probabilidade e impacto.",
+    },
+    {
+      s: "ce",
+      tag: "Banco de dados",
+      q: "A tabela MATRICULA(matricula_aluno, cod_curso, nome_aluno, nota), com chave primária composta (matricula_aluno, cod_curso), na qual nome_aluno depende apenas de matricula_aluno, viola a",
+      o: [
+        "1FN, por possuir atributos multivalorados.",
+        "3FN, por possuir dependência transitiva.",
+        "2FN, por possuir dependência funcional parcial da chave.",
+        "FNBC, apenas.",
+        "integridade referencial.",
+      ],
+      a: 2,
+      e: "A 2FN exige que todo atributo não-chave dependa da chave inteira. nome_aluno depende só de parte dela (dependência parcial). A 3FN trata de dependências transitivas entre atributos não-chave.",
+    },
+    {
+      s: "ce",
+      tag: "SQL",
+      q: "Considere SETOR(id, nome) e SERVIDOR(id, nome, setor_id). A consulta abaixo retorna",
+      c: "SELECT s.nome\nFROM setor s\nLEFT JOIN servidor v ON v.setor_id = s.id\nGROUP BY s.nome\nHAVING COUNT(v.id) = 0;",
+      o: [
+        "todos os servidores sem setor.",
+        "um erro, pois HAVING não pode usar COUNT.",
+        "os setores com pelo menos um servidor.",
+        "os setores que não possuem nenhum servidor.",
+        "todos os setores, com a contagem de servidores.",
+      ],
+      a: 3,
+      e: "O LEFT JOIN mantém todos os setores; setores sem servidores têm v.id NULL e COUNT(v.id) = 0. HAVING filtra grupos após a agregação.",
+    },
+    {
+      s: "ce",
+      tag: "SQL",
+      q: "Assinale a opção que contém apenas comandos da DDL (Data Definition Language).",
+      o: [
+        "SELECT, INSERT, UPDATE",
+        "CREATE, ALTER, DROP",
+        "GRANT, REVOKE, COMMIT",
+        "INSERT, DELETE, MERGE",
+        "CREATE, INSERT, SELECT",
+      ],
+      a: 1,
+      e: "DDL define estruturas: CREATE, ALTER, DROP (e TRUNCATE, em muitas classificações). DML manipula dados: INSERT, UPDATE, DELETE, MERGE (e SELECT, para muitos autores). GRANT/REVOKE são DCL.",
+    },
+    {
+      s: "ce",
+      tag: "Banco de dados",
+      q: "A propriedade ACID que garante que uma transação seja executada por completo ou não tenha nenhum efeito é a",
+      o: [
+        "consistência.",
+        "atomicidade.",
+        "isolamento.",
+        "durabilidade.",
+        "disponibilidade.",
+      ],
+      a: 1,
+      e: "Atomicidade: “tudo ou nada”. Consistência: passa de um estado válido a outro. Isolamento: transações concorrentes não interferem. Durabilidade: após o commit, os dados persistem.",
+    },
+    {
+      s: "ce",
+      tag: "NoSQL",
+      q: "Sobre bancos de dados NoSQL, a associação correta entre o modelo e um exemplo de SGBD é:",
+      o: [
+        "chave-valor — Neo4j",
+        "colunar (família de colunas) — MySQL",
+        "grafos — Redis",
+        "documentos — MongoDB",
+        "documentos — Cassandra",
+      ],
+      a: 3,
+      e: "Chave-valor: Redis; documentos: MongoDB; família de colunas: Cassandra/HBase; grafos: Neo4j. Redis também é exemplo clássico de banco em memória.",
+    },
+    {
+      s: "ce",
+      tag: "Big Data",
+      q: "Sobre data lake e data warehouse, assinale a correta.",
+      o: [
+        "O data lake armazena apenas dados estruturados e já tratados.",
+        "Data lake e data warehouse são sinônimos.",
+        "O data warehouse aceita apenas dados não estruturados.",
+        "O data lake armazena grandes volumes de dados brutos (estruturados, semiestruturados e não estruturados), com esquema aplicado na leitura (schema-on-read); o data warehouse armazena dados tratados e modelados (schema-on-write).",
+        "Data lakes não podem ser usados para ciência de dados.",
+      ],
+      a: 3,
+      e: "Data lakes guardam dados brutos para usos diversos (ciência de dados, ML). Data warehouses guardam dados integrados, limpos e modelados para análise e BI.",
+    },
+    {
+      s: "ce",
+      tag: "BI/OLAP",
+      q: "Ao analisar um cubo OLAP de concessões de benefícios, o analista passa da visão por ano para a visão por mês. Essa operação é chamada de",
+      o: ["roll-up", "pivot", "slice", "drill-down", "dice"],
+      a: 3,
+      e: "Drill-down aumenta o detalhe (ano → mês). Roll-up agrega (mês → ano). Slice fixa um valor de uma dimensão; dice seleciona um subcubo; pivot rotaciona os eixos.",
+    },
+    {
+      s: "ce",
+      tag: "COBIT 2019",
+      q: "No COBIT 2019, o domínio de governança, que trata de avaliar, direcionar e monitorar, é o",
+      o: [
+        "EDM — Avaliar, Direcionar e Monitorar",
+        "BAI — Construir, Adquirir e Implementar",
+        "DSS — Entregar, Servir e Suportar",
+        "APO — Alinhar, Planejar e Organizar",
+        "MEA — Monitorar, Avaliar e Analisar",
+      ],
+      a: 0,
+      e: "O COBIT 2019 tem 40 objetivos em 5 domínios. EDM é o único de governança; APO, BAI, DSS e MEA são de gestão (management).",
+    },
+  ];
+</script>
+<script>
+  (function () {
+    const SECTIONS = [
+      { id: "lp", name: "Língua Portuguesa", mod: 1, n: 12, w: 1 },
+      { id: "en", name: "Língua Inglesa", mod: 1, n: 12, w: 1 },
+      { id: "rl", name: "Raciocínio Lógico Matemático", mod: 1, n: 5, w: 1 },
+      {
+        id: "at",
+        name: "Atualidades e Inteligência Artificial",
+        mod: 1,
+        n: 6,
+        w: 1,
+      },
+      {
+        id: "lg",
+        name: "Legislação de Segurança da Informação e Proteção de Dados",
+        mod: 1,
+        n: 5,
+        w: 1,
+      },
+      { id: "ce", name: "Conhecimentos Específicos", mod: 2, n: 30, w: 2.5 },
+    ];
+    const SEC = Object.fromEntries(SECTIONS.map((s) => [s.id, s]));
+    const L = "ABCDE";
+    QUESTIONS.forEach((q, i) => {
+      q.id = i;
+      q.num = i + 1;
+    });
+    const range = (id) => {
+      const qs = QUESTIONS.filter((q) => q.s === id);
+      return [qs[0].num, qs[qs.length - 1].num];
+    };
+
+    const KEY = "caderno-azul-dataprev-v1";
+    let store = { ans: {}, streak: 0, best: 0, sim: null };
+    try {
+      const raw = localStorage.getItem(KEY);
+      if (raw) store = Object.assign(store, JSON.parse(raw));
+    } catch (e) {}
+    const save = () => {
+      try {
+        localStorage.setItem(KEY, JSON.stringify(store));
+      } catch (e) {}
+    };
+
+    let view = { name: "home" };
+    const app = document.getElementById("app");
+    const esc = (s) =>
+      String(s).replace(
+        /[&<>"]/g,
+        (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c],
+      );
+
+    function toast(msg) {
+      const t = document.getElementById("toast");
+      t.textContent = msg;
+      t.hidden = false;
+      clearTimeout(toast._t);
+      toast._t = setTimeout(() => (t.hidden = true), 1800);
+    }
+
+    function stats() {
+      const done = Object.keys(store.ans).length;
+      const ok = Object.entries(store.ans).filter(
+        ([id, a]) => QUESTIONS[id].a === a,
+      ).length;
+      document.getElementById("st-done").textContent =
+        done + "/" + QUESTIONS.length;
+      document.getElementById("st-acc").textContent = done
+        ? Math.round((ok / done) * 100) + "%"
+        : "—";
+      document.getElementById("st-streak").textContent = store.streak;
+      document.getElementById("st-best").textContent = store.best;
+    }
+    function secProgress(id) {
+      const qs = QUESTIONS.filter((q) => q.s === id);
+      let ok = 0,
+        bad = 0;
+      qs.forEach((q) => {
+        if (q.id in store.ans) {
+          store.ans[q.id] === q.a ? ok++ : bad++;
+        }
+      });
+      return { total: qs.length, ok, bad };
+    }
+    const wrongIds = () =>
+      Object.entries(store.ans)
+        .filter(([id, a]) => QUESTIONS[id].a !== a)
+        .map(([id]) => +id);
+
+    /* ---------- HOME ---------- */
+    function renderHome() {
+      const wr = wrongIds().length;
+      const simOpen = store.sim && !store.sim.done;
+      let h = `<section class="modes">
+    <button class="mode primary" data-act="sim">${simOpen ? "<strong>Continuar simulado</strong><small>Sua prova está em andamento. O tempo continua contando.</small>" : "<strong>Simulado de prova</strong><small>70 questões sorteadas na distribuição do edital, 4 horas, nota de 0 a 115.</small>"}</button>
+    <button class="mode" data-act="all"><strong>Caderno completo</strong><small>As 140 questões em ordem, com gabarito e explicação a cada resposta.</small></button>
+    <button class="mode" data-act="wrong" ${wr ? "" : "disabled"}><strong>Revisar erros</strong><small>${wr ? wr + " questão" + (wr > 1 ? "ões" : "") + " para refazer." : "Nenhum erro registrado ainda."}</small></button>
+  </section>`;
+      [1, 2].forEach((m) => {
+        const secs = SECTIONS.filter((s) => s.mod === m);
+        const tot = secs.reduce((a, s) => a + s.n, 0),
+          pts = secs.reduce((a, s) => a + s.n * s.w, 0);
+        h += `<section class="module"><div class="module-head"><h2>Módulo ${m === 1 ? "I · Conhecimentos Gerais" : "II · Conhecimentos Específicos"}</h2><span>na prova: ${tot} questões · ${pts} pontos</span></div><div class="disc-list">`;
+        secs.forEach((s) => {
+          const p = secProgress(s.id),
+            [a, b] = range(s.id);
+          h += `<button class="disc" data-sec="${s.id}">
+        <span class="name">${s.name}</span>
+        <span class="go">Treinar →</span>
+        <span class="meta">Q${a}–Q${b} · ${p.total} questões (prova: ${s.n}, peso ${String(s.w).replace(".", ",")}) · ${p.ok} certas, ${p.bad} erradas</span>
+        <span class="bar" aria-hidden="true"><i class="b-ok" style="width:${(p.ok / p.total) * 100}%"></i><i class="b-bad" style="width:${(p.bad / p.total) * 100}%"></i></span>
+      </button>`;
+        });
+        h += `</div></section>`;
+      });
+      h += `<div class="foot"><span>Aprovação na objetiva (item 9.17 do edital): no mínimo 57,5 pontos e nenhuma disciplina zerada.</span>
+    <span id="reset-area"><button class="link" id="reset">Apagar meu progresso</button></span></div>`;
+      app.innerHTML = h;
+      app.querySelectorAll(".disc").forEach(
+        (b) =>
+          (b.onclick = () =>
+            startTrain(
+              QUESTIONS.filter((q) => q.s === b.dataset.sec).map((q) => q.id),
+              SEC[b.dataset.sec].name,
+            )),
+      );
+      app.querySelector('[data-act="all"]').onclick = () =>
+        startTrain(
+          QUESTIONS.map((q) => q.id),
+          "Caderno completo",
+        );
+      app.querySelector('[data-act="wrong"]').onclick = () => {
+        const w = wrongIds();
+        if (w.length) {
+          w.forEach((id) => delete store.ans[id]);
+          save();
+          startTrain(w, "Revisão de erros");
+        }
+      };
+      app.querySelector('[data-act="sim"]').onclick = () => {
+        if (!(store.sim && !store.sim.done)) newSim();
+        view = { name: "sim", i: 0 };
+        render();
+      };
+      document.getElementById("reset").onclick = () => {
+        document.getElementById("reset-area").innerHTML =
+          `<span class="confirm">Apagar todas as respostas e o simulado? <button class="btn" id="r-yes">Apagar</button><button class="btn" id="r-no">Cancelar</button></span>`;
+        document.getElementById("r-no").onclick = renderHome;
+        document.getElementById("r-yes").onclick = () => {
+          store = { ans: {}, streak: 0, best: store.best, sim: null };
+          save();
+          render();
+          toast("Progresso apagado");
+        };
+      };
+    }
+
+    /* ---------- TREINO ---------- */
+    function startTrain(ids, label) {
+      const first = ids.findIndex((id) => !(id in store.ans));
+      view = { name: "train", ids, label, i: first < 0 ? 0 : first };
+      render();
+    }
+    function optList(q, chosen, reveal) {
+      return `<ol class="opts">${q.o
+        .map((o, k) => {
+          let c = "";
+          if (reveal) {
+            if (k === q.a) c = "right";
+            else if (k === chosen) c = "wrong";
+          } else if (k === chosen) c = "sel";
+          return `<li><button class="opt ${c}" data-k="${k}" ${reveal ? "disabled" : ""} aria-label="Alternativa ${L[k]}"><span class="bub">${L[k]}</span><span>${esc(o)}</span></button></li>`;
+        })
+        .join("")}</ol>`;
+    }
+    function qBody(q, num) {
+      let h = `<div class="qhead"><span class="qnum">${String(num).padStart(2, "0")}</span><span class="qtag">${SEC[q.s].name}${q.tag ? " · " + esc(q.tag) : ""}</span></div>`;
+      if (q.t) {
+        const t = TEXTS[q.t];
+        h += `<details class="passage" ${view.openText !== false ? "open" : ""}><summary>${esc(t.title)}</summary><div class="ptext">${esc(t.body)}<span class="src">${esc(t.src)}</span></div></details>`;
+      }
+      h += `<p class="stem">${esc(q.q)}</p>`;
+      if (q.c) h += `<pre class="code">${esc(q.c)}</pre>`;
+      return h;
+    }
+    function renderTrain() {
+      const { ids, i, label } = view,
+        q = QUESTIONS[ids[i]],
+        chosen = store.ans[q.id],
+        done = chosen !== undefined;
+      let h = `<div class="qbar"><button class="back" id="back">← Início</button><span class="chip">${esc(label)}</span><span class="spacer"></span><span class="mono" style="font-size:13px;color:var(--muted)">${i + 1} de ${ids.length}</span></div>
+  <div class="layout"><article class="sheet">${qBody(q, q.num)}${optList(q, chosen, done)}`;
+      if (done) {
+        const ok = chosen === q.a;
+        h += `<div class="feedback ${ok ? "" : "no"}" role="status"><h3>${ok ? "Acertou!" : "Errou."} Gabarito: ${L[q.a]}</h3><p>${esc(q.e)}</p></div>`;
+      }
+      h += `<div class="nav"><button class="btn" id="prev" ${i === 0 ? "disabled" : ""}>← Anterior</button><button class="btn solid" id="next" ${i === ids.length - 1 ? "disabled" : ""}>Próxima →</button></div></article>
+  <aside class="card"><h4>Cartão-resposta</h4><p class="hint">Toque num número para ir à questão.</p><div class="grid">${ids
+    .map((id, k) => {
+      const a = store.ans[id];
+      const c = a === undefined ? "" : a === QUESTIONS[id].a ? "ok" : "no";
+      return `<button class="cell ${c} ${k === i ? "cur" : ""}" data-k="${k}" aria-label="Questão ${QUESTIONS[id].num}">${QUESTIONS[id].num}</button>`;
+    })
+    .join("")}</div>
+    <div class="legend"><span><i style="border-color:var(--ok);background:var(--ok-soft)"></i>certa</span><span><i style="border-color:var(--bad);background:var(--bad-soft)"></i>errada</span><span><i style="border-color:var(--line)"></i>em branco</span></div></aside></div>`;
+      app.innerHTML = h;
+      bindCommon();
+      app.querySelectorAll(".opt:not([disabled])").forEach(
+        (b) =>
+          (b.onclick = () => {
+            const k = +b.dataset.k;
+            store.ans[q.id] = k;
+            if (k === q.a) {
+              store.streak++;
+              store.best = Math.max(store.best, store.streak);
+            } else store.streak = 0;
+            save();
+            renderTrain();
+            stats();
+            if (k === q.a && store.streak > 0 && store.streak % 5 === 0)
+              toast(store.streak + " acertos seguidos!");
+          }),
+      );
+    }
+    function bindCommon() {
+      document.getElementById("back").onclick = () => {
+        view = { name: "home" };
+        render();
+      };
+      const go = (k) => {
+        view.i = k;
+        render();
+        window.scrollTo({ top: 0 });
+      };
+      const p = document.getElementById("prev"),
+        n = document.getElementById("next");
+      if (p) p.onclick = () => go(view.i - 1);
+      if (n) n.onclick = () => go(view.i + 1);
+      app
+        .querySelectorAll(".cell")
+        .forEach((c) => (c.onclick = () => go(+c.dataset.k)));
+      app.querySelectorAll("details.passage").forEach(
+        (d) =>
+          (d.ontoggle = () => {
+            view.openText = d.open;
+          }),
+      );
+    }
+
+    /* ---------- SIMULADO ---------- */
+    function shuffle(a) {
+      a = a.slice();
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    }
+    function newSim() {
+      let ids = [];
+      SECTIONS.forEach((s) => {
+        let pick = shuffle(QUESTIONS.filter((q) => q.s === s.id)).slice(0, s.n);
+        pick.sort((x, y) => x.id - y.id);
+        ids = ids.concat(pick.map((q) => q.id));
+      });
+      store.sim = { ids, ans: {}, start: Date.now(), done: false };
+      save();
+    }
+    const LIMIT = 4 * 3600 * 1000;
+    function fmt(ms) {
+      ms = Math.max(0, ms);
+      const s = Math.floor(ms / 1000);
+      return [Math.floor(s / 3600), Math.floor((s % 3600) / 60), s % 60]
+        .map((v) => String(v).padStart(2, "0"))
+        .join(":");
+    }
+    let tick = null;
+    function renderSim() {
+      const sim = store.sim,
+        { i } = view,
+        q = QUESTIONS[sim.ids[i]],
+        chosen = sim.ans[q.id];
+      const answered = Object.keys(sim.ans).length;
+      let h = `<div class="qbar"><button class="back" id="back">← Início</button><span class="chip">Simulado · ${SEC[q.s].name}</span><span class="spacer"></span><span class="timer" id="timer"></span></div>
+  <div class="layout"><article class="sheet">${qBody(q, i + 1)}${optList(q, chosen, false)}
+  <div class="nav"><button class="btn" id="prev" ${i === 0 ? "disabled" : ""}>← Anterior</button><button class="btn solid" id="next" ${i === sim.ids.length - 1 ? "disabled" : ""}>Próxima →</button></div></article>
+  <aside class="card"><h4>Cartão-resposta</h4><p class="hint">${answered} de ${sim.ids.length} marcadas. O gabarito aparece ao entregar.</p><div class="grid">${sim.ids
+    .map(
+      (id, k) =>
+        `<button class="cell ${sim.ans[id] !== undefined ? "ans" : ""} ${k === i ? "cur" : ""}" data-k="${k}" aria-label="Questão ${k + 1}">${k + 1}</button>`,
+    )
+    .join("")}</div>
+    <div id="sub-area"><button class="btn solid submit" id="submit">Entregar prova</button></div></aside></div>`;
+      app.innerHTML = h;
+      bindCommon();
+      app.querySelectorAll(".opt").forEach(
+        (b) =>
+          (b.onclick = () => {
+            sim.ans[q.id] = +b.dataset.k;
+            save();
+            renderSim();
+          }),
+      );
+      document.getElementById("submit").onclick = () => {
+        const blank = sim.ids.length - Object.keys(sim.ans).length;
+        document.getElementById("sub-area").innerHTML =
+          `<div class="confirm" style="margin-top:14px">${blank ? blank + " questões em branco. " : ""}Entregar agora?<button class="btn" id="s-yes">Entregar</button><button class="btn" id="s-no">Voltar</button></div>`;
+        document.getElementById("s-no").onclick = renderSim;
+        document.getElementById("s-yes").onclick = finishSim;
+      };
+      const upd = () => {
+        const left = LIMIT - (Date.now() - sim.start);
+        const t = document.getElementById("timer");
+        if (!t) return;
+        t.textContent = fmt(left);
+        t.classList.toggle("low", left < 15 * 60000);
+        if (left <= 0) finishSim();
+      };
+      clearInterval(tick);
+      upd();
+      tick = setInterval(upd, 1000);
+    }
+    function finishSim() {
+      clearInterval(tick);
+      const sim = store.sim;
+      sim.done = true;
+      sim.end = Date.now();
+      Object.entries(sim.ans).forEach(([id, a]) => {
+        store.ans[id] = a;
+      });
+      save();
+      view = { name: "result" };
+      render();
+      window.scrollTo({ top: 0 });
+    }
+    function renderResult() {
+      const sim = store.sim;
+      if (!sim || !sim.done) {
+        view = { name: "home" };
+        return render();
+      }
+      let total = 0,
+        zero = false,
+        rows = "";
+      SECTIONS.forEach((s) => {
+        const ids = sim.ids.filter((id) => QUESTIONS[id].s === s.id);
+        const ok = ids.filter((id) => sim.ans[id] === QUESTIONS[id].a).length;
+        const pts = ok * s.w;
+        total += pts;
+        if (ok === 0) zero = true;
+        rows += `<tr><td>${s.name}</td><td class="n">${ids.length}</td><td class="n">${ok === 0 ? '<span class="zero">0</span>' : ok}</td><td class="n">${String(s.w).replace(".", ",")}</td><td class="n">${pts.toFixed(1).replace(".", ",")}</td></tr>`;
+      });
+      const pass = total >= 57.5 && !zero;
+      const dur = fmt((sim.end || Date.now()) - sim.start);
+      let h = `<div class="qbar"><button class="back" id="back">← Início</button><span class="chip">Resultado do simulado</span></div>
+  <section class="result"><div class="score"><div class="big">${total.toFixed(1).replace(".", ",")}<small> / 115</small></div>
+    <span class="verdict ${pass ? "pass" : "fail"}">${pass ? "Aprovado na objetiva" : "Abaixo do critério"}</span>
+    <p>Tempo de prova: ${dur}. Critério do edital: mínimo de 57,5 pontos e nenhuma disciplina zerada.${zero ? " Atenção: houve disciplina zerada." : ""}</p></div>
+    <div class="tbl-wrap"><table><thead><tr><th>Disciplina</th><th class="n">Questões</th><th class="n">Acertos</th><th class="n">Peso</th><th class="n">Pontos</th></tr></thead><tbody>${rows}</tbody></table></div>
+    <div class="nav" style="justify-content:flex-start"><button class="btn solid" id="review">Ver gabarito comentado</button><button class="btn" id="again">Novo simulado</button></div></section>`;
+      app.innerHTML = h;
+      document.getElementById("back").onclick = () => {
+        view = { name: "home" };
+        render();
+      };
+      document.getElementById("review").onclick = () => {
+        view = { name: "review", i: 0 };
+        render();
+      };
+      document.getElementById("again").onclick = () => {
+        newSim();
+        view = { name: "sim", i: 0 };
+        render();
+      };
+    }
+    function renderReview() {
+      const sim = store.sim,
+        { i } = view,
+        q = QUESTIONS[sim.ids[i]],
+        chosen = sim.ans[q.id];
+      let h = `<div class="qbar"><button class="back" id="back">← Início</button><span class="chip">Gabarito do simulado</span><span class="spacer"></span><button class="back" id="toRes">Ver nota</button></div>
+  <div class="layout"><article class="sheet">${qBody(q, i + 1)}${optList(q, chosen, true)}
+  <div class="feedback ${chosen === q.a ? "" : "no"}"><h3>${chosen === undefined ? "Em branco." : chosen === q.a ? "Acertou!" : "Errou."} Gabarito: ${L[q.a]}</h3><p>${esc(q.e)}</p></div>
+  <div class="nav"><button class="btn" id="prev" ${i === 0 ? "disabled" : ""}>← Anterior</button><button class="btn solid" id="next" ${i === sim.ids.length - 1 ? "disabled" : ""}>Próxima →</button></div></article>
+  <aside class="card"><h4>Cartão-resposta</h4><p class="hint">Sua marcação comparada ao gabarito.</p><div class="grid">${sim.ids
+    .map((id, k) => {
+      const a = sim.ans[id];
+      const c = a === undefined ? "" : a === QUESTIONS[id].a ? "ok" : "no";
+      return `<button class="cell ${c} ${k === i ? "cur" : ""}" data-k="${k}">${k + 1}</button>`;
+    })
+    .join("")}</div></aside></div>`;
+      app.innerHTML = h;
+      bindCommon();
+      document.getElementById("toRes").onclick = () => {
+        view = { name: "result" };
+        render();
+      };
+    }
+
+    function render() {
+      if (view.name !== "sim") clearInterval(tick);
+      ({
+        home: renderHome,
+        train: renderTrain,
+        sim: renderSim,
+        result: renderResult,
+        review: renderReview,
+      })[view.name]();
+      stats();
+    }
+    document.addEventListener("keydown", (e) => {
+      if (
+        !["train", "sim", "review"].includes(view.name) ||
+        (e.target.closest && e.target.closest("input,textarea"))
+      )
+        return;
+      const k = "abcde".indexOf(e.key.toLowerCase());
+      if (k >= 0) {
+        const b = app.querySelector(`.opt[data-k="${k}"]:not([disabled])`);
+        if (b) b.click();
+      } else if (e.key === "ArrowRight") {
+        const n = document.getElementById("next");
+        if (n && !n.disabled) n.click();
+      } else if (e.key === "ArrowLeft") {
+        const p = document.getElementById("prev");
+        if (p && !p.disabled) p.click();
+      }
+    });
+    render();
+  })();
+</script>
